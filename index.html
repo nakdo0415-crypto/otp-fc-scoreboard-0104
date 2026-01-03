@@ -23,20 +23,7 @@
         .sync-pending { background-color: #f59e0b; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         
-        .team-tag { padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; display: inline-block; letter-spacing: -0.025em; border: 1px solid rgba(0,0,0,0.1); color: white; }
-        .ob-camp-tag { background-color: #334155; }
-        .yb-camp-tag { background-color: #d97706; }
-        .ob1-tag { background-color: #4f46e5; }
-        .ob2-tag { background-color: #0d9488; }
-        .yb1-tag { background-color: #ea580c; }
-        .yb2-tag { background-color: #e11d48; }
-        .ob-tag { background-color: #1e293b; }
-        .yb-tag { background-color: #c2410c; }
-
-        .member-btn.selected { background-color: #4f46e5; color: white; border-color: #4f46e5; }
-        .member-btn.delete-selected { background-color: #ef4444; color: white; border-color: #ef4444; }
-        .guest-badge { background-color: #fef3c7; color: #92400e; font-size: 8px; padding: 1px 4px; border-radius: 4px; font-weight: bold; margin-right: 2px; }
-        .skill-badge { font-size: 9px; color: #64748b; background: #f1f5f9; border: 1px solid #e2e8f0; padding: 0px 4px; border-radius: 4px; font-weight: 800; }
+        .team-tag { padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; display: inline-block; letter-spacing: -0.025em; color: white; border: 1px solid rgba(0,0,0,0.1); }
         
         /* Drag UI Styles */
         .sortable-ghost { opacity: 0.2; background: #cbd5e1 !important; border: 2px dashed #94a3b8 !important; }
@@ -66,12 +53,12 @@
             <h2 class="text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-widest italic text-center">Total Standings</h2>
             <div class="flex justify-around items-center">
                 <div class="flex flex-col flex-1 items-center">
-                    <span id="label-total-ob" class="team-tag ob-tag mb-2 px-4 py-1.5 text-sm italic uppercase">OB TEAM</span>
+                    <span id="label-total-ob" class="team-tag mb-2 px-4 py-1.5 text-sm italic uppercase">OB TEAM</span>
                     <span id="total-ob" class="text-5xl font-black text-slate-900 tracking-tighter">0.0</span>
                 </div>
                 <div class="text-3xl font-black text-slate-200 mx-2 italic text-center">VS</div>
                 <div class="flex flex-col flex-1 items-center">
-                    <span id="label-total-yb" class="team-tag yb-tag mb-2 px-4 py-1.5 text-sm italic uppercase">YB TEAM</span>
+                    <span id="label-total-yb" class="team-tag mb-2 px-4 py-1.5 text-sm italic uppercase">YB TEAM</span>
                     <span id="total-yb" class="text-5xl font-black text-orange-600 tracking-tighter">0.0</span>
                 </div>
             </div>
@@ -123,7 +110,7 @@
                 </div>
                 
                 <div id="member-pool-area" class="hidden text-center text-center">
-                    <div class="flex justify-between items-center mb-2">
+                    <div class="flex justify-between items-center mb-2 text-center w-full">
                         <span id="pool-title" class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center w-full">참석 예정 목록 (<span id="pool-count">0</span>)</span>
                     </div>
                     <div id="member-pool-list" class="flex flex-wrap gap-1.5 max-h-52 overflow-y-auto p-2 bg-white rounded-xl border border-indigo-100 mb-4 shadow-inner text-center"></div>
@@ -155,14 +142,33 @@
         </div>
     </div>
 
-    <!-- Renaming Modal -->
-    <div id="rename-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 border-2 border-slate-900 shadow-2xl text-center"><h3 class="text-lg font-black text-slate-800 mb-4 text-center italic uppercase tracking-tighter">진영/팀 이름 수정</h3><input type="text" id="rename-input" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center mb-6"><div class="flex gap-2 text-center"><button onclick="closeModal('rename-modal')" class="flex-1 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm text-center">취소</button><button id="rename-save-btn" class="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm text-center">저장</button></div></div></div>
+    <!-- Modals -->
+    <div id="rename-modal" class="modal">
+        <div class="bg-white w-full max-w-xs rounded-3xl p-6 border-2 border-slate-900 shadow-2xl text-center">
+            <h3 class="text-lg font-black text-slate-800 mb-4 text-center italic uppercase tracking-tighter">진영/팀 설정</h3>
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">팀 이름</label>
+                    <input type="text" id="rename-input" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">팀 색상</label>
+                    <input type="color" id="recolor-input" class="w-full h-10 border-2 border-slate-100 rounded-xl outline-none cursor-pointer">
+                </div>
+            </div>
+            <div class="flex gap-2 text-center">
+                <button onclick="closeModal('rename-modal')" class="flex-1 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm text-center">취소</button>
+                <button id="rename-save-btn" class="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm text-center">저장</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Player Edit Modal -->
-    <div id="edit-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 border-2 border-slate-900 shadow-2xl text-center"><h3 class="text-lg font-black text-slate-800 mb-4 text-center italic uppercase tracking-tighter">선수 정보 수정</h3><div class="space-y-4 mb-6 text-center"><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">이름</label><input type="text" id="edit-player-name" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">성별</label><select id="edit-player-gender" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center"><option value="남">남성</option><option value="여">여성</option></select></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">실력 점수</label><input type="number" id="edit-player-skill" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center" min="1" max="12"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center">소속 팀</label><select id="edit-player-team" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center"></select></div></div><div class="flex gap-2 text-center"><button onclick="closeModal('edit-modal')" class="flex-1 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm text-center text-center">Cancel</button><button id="edit-save-btn" class="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm active:scale-95 transition-transform uppercase tracking-tighter text-center">Save</button></div></div></div>
+    <div id="edit-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 border-2 border-slate-900 shadow-2xl text-center"><h3 class="text-lg font-black text-slate-800 mb-4 text-center italic uppercase tracking-tighter">선수 정보 수정</h3><div class="space-y-4 mb-6 text-center"><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">이름</label><input type="text" id="edit-player-name" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center">성별</label><select id="edit-player-gender" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center"><option value="남">남성</option><option value="여">여성</option></select></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center">실력 점수</label><input type="number" id="edit-player-skill" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center" min="1" max="12"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center">소속 팀</label><select id="edit-player-team" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center"></select></div></div><div class="flex gap-2 text-center"><button onclick="closeModal('edit-modal')" class="flex-1 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm text-center">Cancel</button><button id="edit-save-btn" class="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm active:scale-95 transition-transform uppercase tracking-tighter text-center text-center">Save</button></div></div></div>
     
-    <div id="confirm-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 text-center shadow-2xl text-center"><h3 id="confirm-title" class="text-lg font-black text-slate-800 mb-2 font-bold italic text-center">Check</h3><p id="confirm-msg" class="text-sm text-slate-600 mb-6 text-center"></p><div class="flex gap-2 text-center text-center"><button onclick="closeModal('confirm-modal')" class="flex-1 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm text-center">Cancel</button><button id="confirm-action-btn" class="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold text-sm text-center">Confirm</button></div></div></div>
-    <div id="scoring-modal" class="modal"><div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] text-center"><div class="p-6 bg-slate-900 text-white flex justify-between items-center shrink-0"><div><span id="modal-match-info" class="text-[10px] font-bold text-slate-400 uppercase text-center">Match Details</span><h3 id="modal-match-title" class="text-xl font-black italic uppercase tracking-tighter text-center">OB vs YB</h3></div><button onclick="closeModal('scoring-modal')" class="text-2xl">&times;</button></div><div class="p-6 overflow-y-auto text-center"><div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center text-center"><div><h4 id="modal-left-team-container" class="text-center mb-4 border-b-2 pb-3 text-center text-center"></h4><div id="modal-left-players" class="space-y-3 text-center text-center"></div></div><div><h4 id="modal-right-team-container" class="text-center mb-4 border-b-2 pb-3 text-center text-center text-center"></h4><div id="modal-right-players" class="space-y-3 text-center text-center text-center"></div></div></div></div><div class="p-4 bg-slate-50 border-t"><button onclick="closeModal('scoring-modal')" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active:scale-95 transition-transform uppercase tracking-widest text-center text-center">Done</button></div></div></div>
+    <div id="confirm-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 text-center shadow-2xl text-center"><h3 id="confirm-title" class="text-lg font-black text-slate-800 mb-2 font-bold italic text-center">Check</h3><p id="confirm-msg" class="text-sm text-slate-600 mb-6 text-center"></p><div class="flex gap-2 text-center"><button onclick="closeModal('confirm-modal')" class="flex-1 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm text-center">Cancel</button><button id="confirm-action-btn" class="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold text-sm text-center">Confirm</button></div></div></div>
+    
+    <div id="scoring-modal" class="modal"><div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] text-center"><div class="p-6 bg-slate-900 text-white flex justify-between items-center shrink-0"><div><span id="modal-match-info" class="text-[10px] font-bold text-slate-400 uppercase text-center">Match Details</span><h3 id="modal-match-title" class="text-xl font-black italic uppercase tracking-tighter text-center">OB vs YB</h3></div><button onclick="closeModal('scoring-modal')" class="text-2xl">&times;</button></div><div class="p-6 overflow-y-auto text-center"><div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center"><div><h4 id="modal-left-team-container" class="text-center mb-4 border-b-2 pb-3 text-center"></h4><div id="modal-left-players" class="space-y-3 text-center"></div></div><div><h4 id="modal-right-team-container" class="text-center mb-4 border-b-2 pb-3 text-center"></h4><div id="modal-right-players" class="space-y-3 text-center"></div></div></div></div><div class="p-4 bg-slate-50 border-t"><button onclick="closeModal('scoring-modal')" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active:scale-95 transition-transform uppercase tracking-widest text-center">Done</button></div></div></div>
+    
     <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold text-xs shadow-2xl opacity-0 transition-opacity pointer-events-none z-[200]">Status</div>
 
     <script type="module">
@@ -176,6 +182,10 @@
             flatMatches.push({q:m.q,court:'A',teams:m.a,idx:i*2});
             flatMatches.push({q:m.q,court:'B',teams:m.b,idx:i*2+1});
         });
+
+        const DEFAULT_LABELS = { "OB 진영": "OB 진영", "YB 진영": "YB 진영", "OB-1": "OB-1", "OB-2": "OB-2", "YB-1": "YB-1", "YB-2": "YB-2" };
+        const DEFAULT_COLORS = { "OB 진영": "#334155", "YB 진영": "#d97706", "OB-1": "#4f46e5", "OB-2": "#0d9488", "YB-1": "#ea580c", "YB-2": "#e11d48" };
+        const DEFAULT_TEAMS = {"OB 진영":[], "YB 진영":[], "OB-1":[], "OB-2":[], "YB-1":[], "YB-2":[]};
 
         const firebaseConfig = {
             apiKey: "AIzaSyD5mPf2yRgAkrGex3mbdgN4LXBPnjNhdZQ",
@@ -194,35 +204,86 @@
         const appId = 'otp-fc-stable-master'; 
         const stateDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'gameState', 'current');
 
-        const DEFAULT_LABELS = { "OB 진영": "OB 진영", "YB 진영": "YB 진영", "OB-1": "OB-1", "OB-2": "OB-2", "YB-1": "YB-1", "YB-2": "YB-2" };
-        const DEFAULT_TEAMS = {"OB 진영":[], "YB 진영":[], "OB-1":[], "OB-2":[], "YB-1":[], "YB-2":[]};
-        
-        let state = { teams: JSON.parse(JSON.stringify(DEFAULT_TEAMS)), labels: JSON.parse(JSON.stringify(DEFAULT_LABELS)), matchScores:Array(12).fill(null).map(()=>({})), memberPool: [], selectionMap: {} };
+        // State initialization
+        let state = { 
+            teams: JSON.parse(JSON.stringify(DEFAULT_TEAMS)), 
+            labels: JSON.parse(JSON.stringify(DEFAULT_LABELS)), 
+            colors: JSON.parse(JSON.stringify(DEFAULT_COLORS)),
+            matchScores:Array(12).fill(null).map(()=>({})), 
+            memberPool: [], 
+            selectionMap: {} 
+        };
         let isDeleteMode = false; let currentMatchIdx = null; let user = null;
 
         // --- Helpers ---
         function getNormalizedPower(p) { const level = parseInt(p.skill) || (p.gender === '여' ? 10 : 4); return 13 - level; }
-        function getTeamTagClass(teamKey) {
-            if (teamKey === 'OB 진영') return 'ob-camp-tag';
-            if (teamKey === 'YB 진영') return 'yb-camp-tag';
-            if (teamKey === 'OB-1') return 'ob1-tag';
-            if (teamKey === 'OB-2') return 'ob2-tag';
-            if (teamKey === 'YB-1') return 'yb1-tag';
-            if (teamKey === 'YB-2') return 'yb2-tag';
-            return 'ob-tag';
-        }
         function getLabel(key) { return (state.labels && state.labels[key]) ? state.labels[key] : key; }
+        function getTeamColor(key) { return (state.colors && state.colors[key]) ? state.colors[key] : (DEFAULT_COLORS[key] || "#1e293b"); }
+        function getContrastYIQ(hexcolor){
+            hexcolor = hexcolor.replace("#", "");
+            var r = parseInt(hexcolor.substr(0,2),16), g = parseInt(hexcolor.substr(2,2),16), b = parseInt(hexcolor.substr(4,2),16);
+            return ((r*299)+(g*587)+(b*114))/1000 >= 128 ? 'black' : 'white';
+        }
+        function getTeamTagStyle(key) {
+            const bg = getTeamColor(key); return `background-color: ${bg}; color: ${getContrastYIQ(bg)};`;
+        }
 
-        // --- Core Rendering ---
+        // --- Rendering Logic ---
+        function renderModalPlayers() {
+            if (currentMatchIdx === null) return;
+            const m = flatMatches.find(f => f.idx === currentMatchIdx);
+            if (!m) return;
+            const rl = (t) => {
+                const teamPlayers = state.teams[t] || [];
+                return teamPlayers.length ? teamPlayers.map(p => `
+                    <div class="flex justify-between items-center bg-white p-4 rounded-3xl border-2 border-slate-50 shadow-sm">
+                        <div class="flex flex-col text-left">
+                            <span class="font-bold text-sm text-slate-800">${p.name} <span class="skill-badge">S${p.skill}</span></span>
+                            <span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600':'text-blue-600'} uppercase">x${p.gender==='여'?'1.0':'0.5'}</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button onclick="window.goal('${p.id}',-1)" class="w-10 h-10 rounded-full border-2 border-slate-100 text-slate-400 font-black active:bg-slate-100">-</button>
+                            <span class="font-black text-xl w-6 text-center text-slate-900">${state.matchScores[currentMatchIdx][p.id]||0}</span>
+                            <button onclick="window.goal('${p.id}',1)" class="w-10 h-10 rounded-full bg-slate-900 text-white font-black active:scale-125 transition-transform shadow-md">+</button>
+                        </div>
+                    </div>
+                `).join('') : `<p class="text-[10px] text-slate-300 text-center py-10 italic uppercase">No Players</p>`;
+            };
+            document.getElementById('modal-left-players').innerHTML = rl(m.teams[0]);
+            document.getElementById('modal-right-players').innerHTML = rl(m.teams[1]);
+        }
+
         function renderMatchList() {
             const container = document.getElementById('tab-scoreboard'); if (!container || !container.classList.contains('active')) return;
             container.innerHTML = matchesRaw.map((q, i) => {
                 const mA = flatMatches[i*2], mB = flatMatches[i*2+1];
                 const sA = getScore(mA.idx, mA.teams[0], mA.teams[1]), sB = getScore(mB.idx, mB.teams[0], mB.teams[1]);
-                return `<div class="card overflow-hidden border-2 border-slate-50 shadow-sm mb-4"><div class="bg-slate-50 px-5 py-3 border-b-2 border-slate-100 flex justify-between items-center font-black text-slate-900 uppercase italic"><span>${q.q} 매치</span></div><div class="divide-y-2 divide-slate-50 text-center">${[mA, mB].map((m, mi) => {
-                    const s = mi === 0 ? sA : sB;
-                    const lT = getTeamTagClass(m.teams[0]), rT = getTeamTagClass(m.teams[1]);
-                    return `<div class="p-5 hover:bg-slate-50 active:bg-slate-100 cursor-pointer flex items-center justify-between" onclick="window.openMatchModal(${m.idx})"><div class="flex items-center gap-3 text-left"><span class="text-[10px] font-black text-slate-300 italic border-r-2 pr-3 uppercase">C-${m.court}</span><div class="flex flex-col gap-1"><div class="flex items-center gap-1.5"><span class="team-tag ${lT} !text-[10px] !px-1.5 !py-0.5">${getLabel(m.teams[0])}</span><span class="text-[9px] font-black text-slate-200">VS</span><span class="team-tag ${rT} !text-[10px] !px-1.5 !py-0.5">${getLabel(m.teams[1])}</span></div><span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest text-center">${m.court==='A'?'OB':'YB'} HOME</span></div></div><div class="font-black text-3xl tracking-tighter text-slate-900">${s.l} : ${s.r}</div></div>`}).join('')}</div></div>`;
+                return `
+                <div class="card overflow-hidden border-2 border-slate-50 shadow-sm mb-4">
+                    <div class="bg-slate-50 px-5 py-3 border-b-2 border-slate-100 flex justify-between items-center font-black text-slate-900 uppercase italic">
+                        <span>${q.q} 매치</span>
+                    </div>
+                    <div class="divide-y-2 divide-slate-50">
+                        ${[mA, mB].map((m, mi) => {
+                            const s = mi === 0 ? sA : sB;
+                            return `
+                            <div class="p-5 hover:bg-slate-50 active:bg-slate-100 cursor-pointer flex items-center justify-between" onclick="window.openMatchModal(${m.idx})">
+                                <div class="flex items-center gap-3 text-left">
+                                    <span class="text-[10px] font-black text-slate-300 italic border-r-2 pr-3 uppercase">C-${m.court}</span>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="team-tag !text-[10px] !px-1.5 !py-0.5" style="${getTeamTagStyle(m.teams[0])}">${getLabel(m.teams[0])}</span>
+                                            <span class="text-[9px] font-black text-slate-200 uppercase tracking-tighter">vs</span>
+                                            <span class="team-tag !text-[10px] !px-1.5 !py-0.5" style="${getTeamTagStyle(m.teams[1])}">${getLabel(m.teams[1])}</span>
+                                        </div>
+                                        <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">${m.court==='A'?'OB':'YB'} HOME</span>
+                                    </div>
+                                </div>
+                                <div class="font-black text-3xl tracking-tighter text-slate-900">${s.l} : ${s.r}</div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`;
             }).join('');
             updateTotal();
         }
@@ -234,7 +295,38 @@
                 const teamData = state.teams[t] || [];
                 const isCamp = t.includes('진영');
                 const campActions = isCamp ? `<button onclick="window.splitTeamsEqually('${t}', '${t.split(' ')[0]}-1', '${t.split(' ')[0]}-2')" class="text-[9px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-200 px-2 py-1 rounded-lg mt-2 w-full active:scale-95 transition-all">⚡ 실력/성별 균등 팀 나누기</button>` : '';
-                return `<div class="card p-5 border border-slate-100 mb-2 overflow-hidden text-center"><div class="flex justify-between items-center mb-3"><div class="flex items-center gap-2"><span class="team-tag ${getTeamTagClass(t)} text-base px-3 py-1 italic uppercase">${getLabel(t)} (${teamData.length}명)</span><button onclick="window.openRenameModal('${t}')" class="text-slate-300 hover:text-slate-600">📝</button></div><button onclick="window.showConfirm('${getLabel(t)} 초기화','명단을 비울까요?',()=>window.clearTeam('${t}'))" class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-1 rounded-lg">Clear</button></div>${campActions}<div class="team-list-area space-y-2 my-4 min-h-[60px]" data-team="${t}">${teamData.length === 0 ? '<p class="text-[10px] text-slate-300 text-center py-6 italic pointer-events-none">Empty</p>' : ''}${teamData.map(p => `<div class="player-item flex justify-between items-center bg-white p-3.5 rounded-2xl text-sm border-2 border-slate-50 shadow-sm" data-id="${p.id}"><div class="flex flex-col truncate pr-1 text-left pointer-events-none"><span class="font-bold text-slate-800 text-left text-left">${p.name} <span class="skill-badge">S${p.skill}</span> <span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600 border-rose-100 bg-rose-50':'text-blue-600 border-blue-100 bg-blue-50'} ml-1 uppercase border px-1.5 py-0.5 rounded text-left">${p.gender}</span></span>${p.invitedBy ? `<span class="text-[9px] text-slate-400 font-medium text-left">추천인: ${p.invitedBy}</span>` : ''}</div><div class="flex gap-4 shrink-0"><button onclick="window.openEditModal('${t}','${p.id}')" class="text-slate-800 font-black text-[11px] underline">Edit</button></div></div>`).join('')}</div><div class="space-y-2 bg-slate-50 p-3 rounded-3xl border border-slate-100"><input type="text" id="input-name-${t}" placeholder="이름" class="w-full bg-white border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-slate-900 transition-colors text-center text-center"><div class="flex gap-2"><select id="input-gender-${t}" class="flex-1 bg-white border-2 border-slate-100 rounded-xl px-3 text-sm font-black text-slate-700 outline-none h-12 appearance-none text-center"><option value="남">남성</option><option value="여">여성</option></select><button onclick="window.addPlayer('${t}')" class="flex-[1.5] bg-slate-900 text-white rounded-xl flex items-center justify-center font-black shadow-lg active:scale-95 h-12 text-sm uppercase tracking-tighter text-center text-center text-center">Add +</button></div></div></div>`;
+                return `
+                <div class="card p-5 border border-slate-100 mb-2 overflow-hidden text-center">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="team-tag text-base px-3 py-1 italic uppercase" style="${getTeamTagStyle(t)}">${getLabel(t)} (${teamData.length}명)</span>
+                            <button onclick="window.openRenameModal('${t}')" class="text-slate-300 hover:text-slate-600 transition-colors">📝</button>
+                        </div>
+                        <button onclick="window.showConfirm('${getLabel(t)} 초기화','명단을 비울까요?',()=>window.clearTeam('${t}'))" class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-1 rounded-lg">Clear</button>
+                    </div>
+                    ${campActions}
+                    <div class="team-list-area space-y-2 my-4 min-h-[60px]" data-team="${t}">
+                        ${teamData.length === 0 ? '<p class="text-[10px] text-slate-300 text-center py-6 italic pointer-events-none">Empty</p>' : ''}
+                        ${teamData.map(p => `
+                            <div class="player-item flex justify-between items-center bg-white p-3.5 rounded-2xl text-sm border-2 border-slate-50 shadow-sm" data-id="${p.id}">
+                                <div class="flex flex-col truncate pr-1 text-left pointer-events-none">
+                                    <span class="font-bold text-slate-800">${p.name} <span class="skill-badge">S${p.skill}</span> <span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600 border-rose-100 bg-rose-50':'text-blue-600 border-blue-100 bg-blue-50'} ml-1 uppercase border px-1.5 py-0.5 rounded">${p.gender}</span></span>
+                                    ${p.invitedBy ? `<span class="text-[9px] text-slate-400 font-medium">추천인: ${p.invitedBy}</span>` : ''}
+                                </div>
+                                <div class="flex gap-4 shrink-0">
+                                    <button onclick="window.openEditModal('${t}','${p.id}')" class="text-slate-800 font-black text-[11px] underline">Edit</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="space-y-2 bg-slate-50 p-3 rounded-3xl border border-slate-100 shadow-inner">
+                        <input type="text" id="input-name-${t}" placeholder="이름" class="w-full bg-white border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-slate-900 transition-colors text-center">
+                        <div class="flex gap-2">
+                            <select id="input-gender-${t}" class="flex-1 bg-white border-2 border-slate-100 rounded-xl px-3 text-sm font-black text-slate-700 outline-none h-12 appearance-none text-center"><option value="남">남성</option><option value="여">여성</option></select>
+                            <button onclick="window.addPlayer('${t}')" class="flex-[1.5] bg-slate-900 text-white rounded-xl flex items-center justify-center font-black shadow-lg active:scale-95 h-12 text-sm uppercase tracking-tighter">Add +</button>
+                        </div>
+                    </div>
+                </div>`;
             }).join('');
             initSortable();
         }
@@ -243,49 +335,100 @@
             const stats = {}; Object.keys(state.teams).forEach(t=>state.teams[t].forEach(p=>stats[p.id]={name:p.name,gender:p.gender,team:t,goals:0,pts:0,isG:p.isGuest,skill:p.skill}));
             state.matchScores.forEach(ms=>{for(let pid in ms){if(stats[pid]){stats[pid].goals+=ms[pid]; stats[pid].pts+=ms[pid]*(stats[pid].gender==='여'?1:0.5);}}});
             const srt = Object.values(stats).filter(p=>p.goals>0).sort((a,b)=>b.pts-a.pts||b.goals-a.goals);
-            const container = document.getElementById('ranking-container'); if(!container || !srt.length) { if(container) container.innerHTML=`<p class="text-center py-20 text-slate-300 font-bold italic uppercase tracking-widest text-center text-center text-center text-center text-center">No Stats Recorded</p>`; return; }
-            container.innerHTML = srt.map((p,i)=> `<div class="flex items-center justify-between p-5 bg-white rounded-3xl border-2 border-slate-50 shadow-sm hover:shadow-md transition-shadow text-center text-center text-center text-center text-center text-center"><div class="flex items-center gap-4 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><span class="text-2xl font-black italic ${i<3?'text-orange-500':'text-slate-200'} text-center text-center text-center text-center">#${i+1}</span><div class="text-left text-left text-left text-left text-left text-left"><p class="font-bold text-slate-900 text-sm flex items-center gap-2 text-left text-left text-left text-left text-left text-left text-left">${p.name} <span class="team-tag ${getTeamTagClass(p.team)} !text-[8px] !px-1.5 !py-0.5 !rounded-md text-center text-center text-center text-center">${getLabel(p.team)}</span></p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left text-left text-left text-left text-left text-left text-left">${p.gender} | S${p.skill} | ${p.goals} GOALS</p></div></div><div class="text-right text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"><span class="text-2xl font-black text-slate-900 tracking-tighter text-center text-center text-center text-center text-center text-center">${p.pts.toFixed(1)}</span><span class="text-[10px] font-black text-slate-300 ml-0.5 uppercase text-center text-center text-center text-center">PTS</span></div></div>`).join('');
+            const container = document.getElementById('ranking-container'); if(!container || !srt.length) { if(container) container.innerHTML=`<p class="text-center py-20 text-slate-300 font-bold italic uppercase tracking-widest">No Stats Recorded</p>`; return; }
+            container.innerHTML = srt.map((p,i)=> `<div class="flex items-center justify-between p-5 bg-white rounded-3xl border-2 border-slate-50 shadow-sm hover:shadow-md transition-shadow text-center"><div class="flex items-center gap-4 text-left"><span class="text-2xl font-black italic ${i<3?'text-orange-500':'text-slate-200'}">#${i+1}</span><div class="text-left"><p class="font-bold text-slate-900 text-sm flex items-center gap-2">${p.name} <span class="team-tag !text-[8px] !px-1.5 !py-0.5 !rounded-md" style="${getTeamTagStyle(p.team)}">${getLabel(p.team)}</span></p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${p.gender} | S${p.skill} | ${p.goals} GOALS</p></div></div><div class="text-right text-center"><span class="text-2xl font-black text-slate-900 tracking-tighter">${p.pts.toFixed(1)}</span><span class="text-[10px] font-black text-slate-300 ml-0.5 uppercase text-center">PTS</span></div></div>`).join('');
         }
 
-        // --- Name Modification ---
+        function renderMemberPool() {
+            const list = document.getElementById('member-pool-list');
+            if (!state.memberPool || state.memberPool.length === 0) { if(document.getElementById('member-pool-area')) document.getElementById('member-pool-area').classList.add('hidden'); return; }
+            document.getElementById('member-pool-area').classList.remove('hidden');
+            document.getElementById('pool-count').innerText = state.memberPool.filter(m => state.selectionMap[m.id]).length;
+            list.innerHTML = state.memberPool.map((m) => {
+                const isS = state.selectionMap[m.id];
+                let c = isDeleteMode ? (isS ? "bg-red-500 text-white border-red-500" : "bg-white text-slate-600 border-slate-100 shadow-sm") : (isS ? "bg-indigo-600 text-white border-indigo-600" : "bg-white text-slate-600 border-slate-100 shadow-sm");
+                return `<button onclick="window.toggleSelectMember('${m.id}')" class="px-3 py-2 rounded-xl text-[11px] font-bold border-2 transition-all active:scale-90 flex items-center ${c}">${m.isGuest?'<span class="guest-badge">G</span>':''}${m.name}<span class="ml-1 opacity-50 text-[8px]">S${m.skill}</span></button>`;
+            }).join('');
+        }
+
+        function getScore(mid, tL, tR) {
+            let l=0, r=0; (state.teams[tL]||[]).forEach(p=>l+=(state.matchScores[mid][p.id]||0)*(p.gender==='여'?1:0.5)); (state.teams[tR]||[]).forEach(p=>r+=(state.matchScores[mid][p.id]||0)*(p.gender==='여'?1:0.5));
+            return { l: l.toFixed(1), r: r.toFixed(1) };
+        }
+
+        function updateTotal() {
+            let ob=0, yb=0; flatMatches.forEach(m => { 
+                const s = getScore(m.idx, m.teams[0], m.teams[1]); 
+                if (m.teams[0].startsWith('OB')) ob += parseFloat(s.l); else if (m.teams[0].startsWith('YB')) yb += parseFloat(s.l); 
+                if (m.teams[1].startsWith('OB')) ob += parseFloat(s.r); else if (m.teams[1].startsWith('YB')) yb += parseFloat(s.r); 
+            });
+            if(document.getElementById('total-ob')) document.getElementById('total-ob').innerText = ob.toFixed(1);
+            if(document.getElementById('total-yb')) document.getElementById('total-yb').innerText = yb.toFixed(1);
+            const lOB = document.getElementById('label-total-ob'), lYB = document.getElementById('label-total-yb');
+            if(lOB) { lOB.innerText = getLabel('OB 진영').split(' ')[0] + ' TEAM'; lOB.style = getTeamTagStyle('OB 진영'); }
+            if(lYB) { lYB.innerText = getLabel('YB 진영').split(' ')[0] + ' TEAM'; lYB.style = getTeamTagStyle('YB 진영'); }
+        }
+
+        function renderAll() { renderMatchList(); renderTeamManagement(); renderRecords(); if (currentMatchIdx !== null) renderModalPlayers(); renderMemberPool(); }
+
+        // --- Core Action Handlers ---
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('bg-slate-800','text-white','shadow-md'); b.classList.add('bg-white','text-slate-600'); });
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            const targetBtn = document.getElementById(`btn-${tab}`);
+            targetBtn.classList.replace('bg-white','bg-slate-800'); targetBtn.classList.replace('text-slate-600','text-white');
+            renderAll();
+        };
+
+        window.openMatchModal = (idx) => {
+            currentMatchIdx = idx; const m = flatMatches.find(f => f.idx === idx);
+            if(!m) return;
+            document.getElementById('modal-match-info').innerText = `${m.q} - Court ${m.court}`;
+            document.getElementById('modal-match-title').innerText = `${getLabel(m.teams[0])} VS ${getLabel(m.teams[1])}`;
+            document.getElementById('modal-left-team-container').innerHTML = `<span class="team-tag" style="${getTeamTagStyle(m.teams[0])}">${getLabel(m.teams[0])}</span>`;
+            document.getElementById('modal-right-team-container').innerHTML = `<span class="team-tag" style="${getTeamTagStyle(m.teams[1])}">${getLabel(m.teams[1])}</span>`;
+            renderModalPlayers(); document.getElementById('scoring-modal').classList.add('active');
+        };
+
         window.openRenameModal = (key) => {
-            const currentLabel = getLabel(key);
-            document.getElementById('rename-input').value = currentLabel;
+            document.getElementById('rename-input').value = getLabel(key);
+            document.getElementById('recolor-input').value = getTeamColor(key);
             document.getElementById('rename-save-btn').onclick = () => {
-                const newLabel = document.getElementById('rename-input').value.trim();
-                if (newLabel) {
-                    if (!state.labels) state.labels = JSON.parse(JSON.stringify(DEFAULT_LABELS));
-                    state.labels[key] = newLabel;
-                    pushState();
-                    closeModal('rename-modal');
+                const nl = document.getElementById('rename-input').value.trim();
+                const nc = document.getElementById('recolor-input').value;
+                if (nl) {
+                    state.labels[key] = nl; state.colors[key] = nc;
+                    pushState(); closeModal('rename-modal');
                 }
             };
             document.getElementById('rename-modal').classList.add('active');
         };
 
-        // --- Drag & Drop ---
-        function initSortable() {
-            const containers = document.querySelectorAll('.team-list-area');
-            containers.forEach(el => {
-                new Sortable(el, { group: 'all-teams', animation: 180, ghostClass: 'sortable-ghost',
-                    onEnd: function (evt) {
-                        const from = evt.from.dataset.team, to = evt.to.dataset.team, pid = evt.item.dataset.id;
-                        if (from === to && evt.oldIndex === evt.newIndex) return;
-                        const pObj = state.teams[from].find(p => p.id === pid); if (!pObj) return;
-                        state.teams[from] = state.teams[from].filter(p => p.id !== pid);
-                        state.teams[to].splice(evt.newIndex, 0, pObj); pushState();
-                    }
-                });
-            });
-        }
+        window.openEditModal = (teamName, pid) => {
+            const p = state.teams[teamName].find(p => p.id === pid); if (!p) return;
+            document.getElementById('edit-player-name').value = p.name; 
+            document.getElementById('edit-player-gender').value = p.gender; 
+            document.getElementById('edit-player-skill').value = p.skill;
+            const select = document.getElementById('edit-player-team');
+            select.innerHTML = Object.keys(state.teams).map(key => `<option value="${key}">${getLabel(key)}</option>`).join('');
+            select.value = teamName;
+            document.getElementById('edit-save-btn').onclick = () => {
+                const nt = select.value; 
+                p.name = document.getElementById('edit-player-name').value; 
+                p.gender = document.getElementById('edit-player-gender').value; 
+                p.skill = parseInt(document.getElementById('edit-player-skill').value);
+                if (nt !== teamName) { state.teams[teamName] = state.teams[teamName].filter(x => x.id !== pid); state.teams[nt].push(p); }
+                pushState(); window.closeModal('edit-modal');
+            };
+            document.getElementById('edit-modal').classList.add('active');
+        };
 
-        // --- Action Handlers ---
         window.registerGuest = () => {
             const name = document.getElementById('guest-name').value.trim();
             const birthYear = document.getElementById('guest-birth-year').value.trim();
-            const skill = parseInt(document.getElementById('guest-skill').value);
             if(!name || birthYear.length !== 4) return window.showToast("정보를 확인해 주세요.");
-            const guestObj = { id: 'g_' + Date.now(), name, gender: document.getElementById('guest-gender').value, birthDate: `${birthYear}-01-01`, skill, invitedBy: document.getElementById('guest-invited-by').value.trim(), isGuest: true };
+            const guestObj = { id: 'g_' + Date.now(), name, gender: document.getElementById('guest-gender').value, birthDate: `${birthYear}-01-01`, skill: parseInt(document.getElementById('guest-skill').value), invitedBy: document.getElementById('guest-invited-by').value.trim(), isGuest: true };
             state.memberPool.push(guestObj); state.memberPool.sort((a, b) => a.name.localeCompare(b.name));
             state.selectionMap[guestObj.id] = true; pushState();
             document.getElementById('guest-name').value = ""; document.getElementById('guest-invited-by').value = ""; document.getElementById('guest-birth-year').value = "";
@@ -333,18 +476,15 @@
             const selected = state.memberPool.filter(m => state.selectionMap[m.id]);
             if (selected.length < 2) return window.showToast("인원 부족");
             state.teams = JSON.parse(JSON.stringify(DEFAULT_TEAMS));
-            const members = selected.filter(m => !m.isGuest);
-            const guests = selected.filter(m => m.isGuest);
+            const members = selected.filter(m => !m.isGuest), guests = selected.filter(m => m.isGuest);
             const obMen = members.filter(m => m.gender === '남' && (m.birthDate.startsWith('1994') || ["최서호", "홍권표"].includes(m.name)));
             const otherMen = members.filter(m => m.gender === '남' && !obMen.find(c => c.id === m.id));
             const coupleWomen = members.filter(m => m.gender === '여' && m.isCouple);
             const hanSuJung = members.find(m => m.name === '한수정');
             const otherWomen = members.filter(m => m.gender === '여' && !coupleWomen.find(c => c.id === m.id) && (hanSuJung ? m.id !== hanSuJung.id : true)).sort((a, b) => a.birthDate.localeCompare(b.birthDate));
 
-            obMen.forEach(m => state.teams["OB 진영"].push(m));
-            coupleWomen.forEach(m => state.teams["OB 진영"].push(m));
-            otherMen.forEach(m => state.teams["YB 진영"].push(m));
-            guests.forEach(m => state.teams["YB 진영"].push(m));
+            obMen.forEach(m => state.teams["OB 진영"].push(m)); coupleWomen.forEach(m => state.teams["OB 진영"].push(m));
+            otherMen.forEach(m => state.teams["YB 진영"].push(m)); guests.forEach(m => state.teams["YB 진영"].push(m));
             if(hanSuJung) state.teams["YB 진영"].push(hanSuJung);
             const half = Math.ceil(otherWomen.length / 2);
             otherWomen.slice(0, half).forEach(m => state.teams["YB 진영"].push(m));
@@ -353,7 +493,7 @@
         };
 
         window.splitTeamsEqually = (campName, teamA, teamB) => {
-            const group = state.teams[campName] || []; if (group.length < 2) return window.showToast("인원 부족");
+            const group = state.teams[campName] || []; if (group.length < 2) return window.showToast("인원이 부족합니다.");
             const females = group.filter(p => p.gender === '여').sort((a,b) => getNormalizedPower(b) - getNormalizedPower(a));
             const males = group.filter(p => p.gender === '남').sort((a,b) => getNormalizedPower(b) - getNormalizedPower(a));
             state.teams[teamA] = []; state.teams[teamB] = [];
@@ -362,97 +502,34 @@
             state.teams[campName] = []; pushState();
         };
 
-        // --- Common UI Functions ---
-        window.switchTab = (tab) => {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('bg-slate-800','text-white','shadow-md'); b.classList.add('bg-white','text-slate-600'); });
-            document.getElementById(`tab-${tab}`).classList.add('active');
-            const targetBtn = document.getElementById(`btn-${tab}`);
-            targetBtn.classList.replace('bg-white','bg-slate-800'); targetBtn.classList.replace('text-slate-600','text-white');
-            renderAll();
+        window.toggleDeleteMode = () => { isDeleteMode = !isDeleteMode; document.getElementById('btn-delete-mode').innerText = isDeleteMode ? "삭제 취소" : "명단 삭제"; renderMemberPool(); };
+        window.toggleSelectMember = (memberId) => { state.selectionMap[memberId] = !state.selectionMap[memberId]; pushState(); };
+        window.toggleSelectAll = () => { const allS = state.memberPool.every(m => state.selectionMap[m.id]); state.memberPool.forEach(m => state.selectionMap[m.id] = !allS); pushState(); };
+        window.confirmDeleteMembers = () => {
+            const count = state.memberPool.filter(m => state.selectionMap[m.id]).length;
+            if (count === 0) return;
+            window.showConfirm('삭제 확정', `${count}명을 영구 삭제할까요?`, () => { state.memberPool = state.memberPool.filter(m => !state.selectionMap[m.id]); state.selectionMap = {}; pushState(); window.toggleDeleteMode(); });
         };
+
+        window.goal = (pid, d) => { if (currentMatchIdx === null) return; state.matchScores[currentMatchIdx][pid] = Math.max(0, (state.matchScores[currentMatchIdx][pid] || 0) + d); pushState(); };
+        window.resetScoresOnly = () => { state.matchScores = Array(12).fill(null).map(() => ({})); pushState(); };
         window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); if (id === 'scoring-modal') currentMatchIdx = null; };
         window.showConfirm = (title, msg, fn) => { document.getElementById('confirm-title').innerText = title; document.getElementById('confirm-msg').innerText = msg; document.getElementById('confirm-action-btn').onclick = () => { fn(); window.closeModal('confirm-modal'); }; document.getElementById('confirm-modal').classList.add('active'); };
         window.showToast = (msg) => { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('opacity-100'); setTimeout(() => t.classList.remove('opacity-100'), 2000); };
         window.copyStatus = () => { const text = `[OTP FC LIVE]\n${getLabel('OB 진영').split(' ')[0]} ${document.getElementById('total-ob').innerText} : ${document.getElementById('total-yb').innerText} ${getLabel('YB 진영').split(' ')[0]}\n실시간: ${window.location.href}`; const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); window.showToast("복사되었습니다."); };
 
-        window.addPlayer = (teamName) => {
-            const name = document.getElementById(`input-name-${teamName}`).value.trim(); if(!name) return;
-            const gender = document.getElementById(`input-gender-${teamName}`).value;
-            state.teams[teamName].push({ id: 'p_'+Date.now(), name, gender, skill: (gender === '여' ? 10 : 4) });
-            pushState(); document.getElementById(`input-name-${teamName}`).value = ''; 
-        };
-        window.removePlayer = (teamName, pid) => { state.teams[teamName] = state.teams[teamName].filter(p => p.id !== pid); pushState(); };
         window.clearTeam = (teamName) => { state.teams[teamName] = []; pushState(); };
-        window.openEditModal = (teamName, pid) => {
-            const p = state.teams[teamName].find(p => p.id === pid); if (!p) return;
-            document.getElementById('edit-player-name').value = p.name; document.getElementById('edit-player-gender').value = p.gender; document.getElementById('edit-player-skill').value = p.skill;
-            const select = document.getElementById('edit-player-team');
-            select.innerHTML = Object.keys(state.teams).map(key => `<option value="${key}">${getLabel(key)}</option>`).join('');
-            select.value = teamName;
-            document.getElementById('edit-save-btn').onclick = () => {
-                const nt = select.value; p.name = document.getElementById('edit-player-name').value; p.gender = document.getElementById('edit-player-gender').value; p.skill = parseInt(document.getElementById('edit-player-skill').value);
-                if (nt !== teamName) { state.teams[teamName] = state.teams[teamName].filter(x => x.id !== pid); state.teams[nt].push(p); }
-                pushState(); window.closeModal('edit-modal');
-            };
-            document.getElementById('edit-modal').classList.add('active');
-        };
-        window.openMatchModal = (idx) => {
-            currentMatchIdx = idx; const m = flatMatches.find(f => f.idx === idx);
-            document.getElementById('modal-match-info').innerText = `${m.q} - Court ${m.court}`;
-            document.getElementById('modal-match-title').innerText = `${getLabel(m.teams[0])} VS ${getLabel(m.teams[1])}`;
-            document.getElementById('modal-left-team-container').innerHTML = `<span class="team-tag ${getTeamTagClass(m.teams[0])}">${getLabel(m.teams[0])}</span>`;
-            document.getElementById('modal-right-team-container').innerHTML = `<span class="team-tag ${getTeamTagClass(m.teams[1])}">${getLabel(m.teams[1])}</span>`;
-            renderModalPlayers(); document.getElementById('scoring-modal').classList.add('active');
-        };
-        window.goal = (pid, d) => { if (currentMatchIdx === null) return; state.matchScores[currentMatchIdx][pid] = Math.max(0, (state.matchScores[currentMatchIdx][pid] || 0) + d); pushState(); };
-        window.resetScoresOnly = () => { state.matchScores = Array(12).fill(null).map(() => ({})); pushState(); };
 
-        function renderModalPlayers() {
-            if (currentMatchIdx === null) return;
-            const m = flatMatches.find(f => f.idx === currentMatchIdx);
-            const rl = (t) => (state.teams[t]||[]).length?state.teams[t].map(p=>`<div class="flex justify-between items-center bg-white p-4 rounded-3xl border-2 border-slate-50 shadow-sm text-center"><div class="flex flex-col text-left"><span class="font-bold text-sm text-slate-800 text-left">${p.name} <span class="skill-badge">S${p.skill}</span></span><span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600':'text-blue-600'} uppercase text-center text-center">x${p.gender==='여'?'1.0':'0.5'}</span></div><div class="flex items-center gap-4 text-center"><button onclick="window.goal('${p.id}',-1)" class="w-10 h-10 rounded-full border-2 border-slate-100 text-slate-400 font-black active:bg-slate-100">-</button><span class="font-black text-xl w-6 text-center text-slate-900">${state.matchScores[currentMatchIdx][p.id]||0}</span><button onclick="window.goal('${p.id}',1)" class="w-10 h-10 rounded-full bg-slate-900 text-white font-black active:scale-125 transition-transform shadow-md">+</button></div></div>`).join(''):`<p class="text-[10px] text-slate-300 text-center py-10 italic uppercase text-center">No Players</p>`;
-            document.getElementById('modal-left-players').innerHTML = rl(m.teams[0]); document.getElementById('modal-right-players').innerHTML = rl(m.teams[1]);
-        }
-
-        function getScore(mid, tL, tR) {
-            let l=0, r=0; (state.teams[tL]||[]).forEach(p=>l+=(state.matchScores[mid][p.id]||0)*(p.gender==='여'?1:0.5)); (state.teams[tR]||[]).forEach(p=>r+=(state.matchScores[mid][p.id]||0)*(p.gender==='여'?1:0.5));
-            return { l: l.toFixed(1), r: r.toFixed(1) };
-        }
-
-        function updateTotal() {
-            let ob=0, yb=0; flatMatches.forEach(m => { 
-                const s = getScore(m.idx, m.teams[0], m.teams[1]); 
-                if (m.teams[0].startsWith('OB')) ob += parseFloat(s.l); else if (m.teams[0].startsWith('YB')) yb += parseFloat(s.l); 
-                if (m.teams[1].startsWith('OB')) ob += parseFloat(s.r); else if (m.teams[1].startsWith('YB')) yb += parseFloat(s.r); 
-            });
-            if(document.getElementById('total-ob')) document.getElementById('total-ob').innerText = ob.toFixed(1);
-            if(document.getElementById('total-yb')) document.getElementById('total-yb').innerText = yb.toFixed(1);
-            if(document.getElementById('label-total-ob')) document.getElementById('label-total-ob').innerText = getLabel('OB 진영').split(' ')[0] + ' TEAM';
-            if(document.getElementById('label-total-yb')) document.getElementById('label-total-yb').innerText = getLabel('YB 진영').split(' ')[0] + ' TEAM';
-        }
-
-        function renderMemberPool() {
-            const list = document.getElementById('member-pool-list');
-            if (!state.memberPool || state.memberPool.length === 0) { if(document.getElementById('member-pool-area')) document.getElementById('member-pool-area').classList.add('hidden'); return; }
-            document.getElementById('member-pool-area').classList.remove('hidden');
-            document.getElementById('pool-count').innerText = state.memberPool.filter(m => state.selectionMap[m.id]).length;
-            list.innerHTML = state.memberPool.map((m) => {
-                const isS = state.selectionMap[m.id];
-                let c = isDeleteMode ? (isS ? "bg-red-500 text-white border-red-500" : "bg-white text-slate-600 border-slate-100 shadow-sm") : (isS ? "bg-indigo-600 text-white border-indigo-600" : "bg-white text-slate-600 border-slate-100 shadow-sm");
-                return `<button onclick="window.toggleSelectMember('${m.id}')" class="px-3 py-2 rounded-xl text-[11px] font-bold border-2 transition-all active:scale-90 flex items-center ${c}">${m.isGuest?'<span class="guest-badge">G</span>':''}${m.name}<span class="ml-1 opacity-50 text-[8px]">S${m.skill}</span></button>`;
-            }).join('');
-        }
-
+        // --- Firebase Sync ---
         async function pushState() { if (!user || !stateDocRef) return; try { await setDoc(stateDocRef, state); } catch(e) { console.error("Push Error", e); } }
         function startSync() {
             onSnapshot(stateDocRef, (ds) => { 
                 if (ds.exists()) { 
                     const d = ds.data();
                     state = { 
-                        ...d, 
-                        selectionMap: d.selectionMap || {}, 
+                        ...d, selectionMap: d.selectionMap || {}, 
                         labels: { ...JSON.parse(JSON.stringify(DEFAULT_LABELS)), ...d.labels },
+                        colors: { ...JSON.parse(JSON.stringify(DEFAULT_COLORS)), ...d.colors },
                         teams: { ...JSON.parse(JSON.stringify(DEFAULT_TEAMS)), ...d.teams } 
                     };
                     renderAll(); 
@@ -461,7 +538,20 @@
             }, (er) => { document.getElementById('sync-status').className = 'sync-indicator sync-offline'; document.getElementById('sync-text').innerText = 'Offline'; });
         }
 
-        function renderAll() { renderMatchList(); renderTeamManagement(); renderRecords(); if (currentMatchIdx !== null) renderModalPlayers(); renderMemberPool(); }
+        function initSortable() {
+            const containers = document.querySelectorAll('.team-list-area');
+            containers.forEach(el => {
+                new Sortable(el, { group: 'all-teams', animation: 180, ghostClass: 'sortable-ghost',
+                    onEnd: function (evt) {
+                        const from = evt.from.dataset.team, to = evt.to.dataset.team, pid = evt.item.dataset.id;
+                        if (from === to && evt.oldIndex === evt.newIndex) return;
+                        const pObj = state.teams[from].find(p => p.id === pid); if (!pObj) return;
+                        state.teams[from] = state.teams[from].filter(p => p.id !== pid);
+                        state.teams[to].splice(evt.newIndex, 0, pObj); pushState();
+                    }
+                });
+            });
+        }
 
         async function run() {
             renderAll();
