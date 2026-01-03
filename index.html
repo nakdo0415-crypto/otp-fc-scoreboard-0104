@@ -40,10 +40,9 @@
         
         /* Drag UI Styles */
         .sortable-ghost { opacity: 0.2; background: #cbd5e1 !important; border: 2px dashed #94a3b8 !important; }
-        .sortable-chosen { cursor: grabbing; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
         .player-item { cursor: grab; transition: transform 0.1s; touch-action: none; }
         .player-item:active { cursor: grabbing; }
-        .team-list-area { min-height: 60px; border-radius: 16px; padding: 4px; border: 2px border-transparent; transition: all 0.2s; }
+        .team-list-area { min-height: 60px; border-radius: 16px; padding: 4px; }
     </style>
 </head>
 <body class="pb-20">
@@ -55,7 +54,7 @@
                 <span id="sync-text" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Connecting...</span>
             </div>
             <h1 class="text-3xl font-800 text-slate-900 tracking-tighter uppercase italic text-center">OTP FC LIVE</h1>
-            <div class="flex justify-center gap-2 mt-4 text-xs font-bold text-center">
+            <div class="flex justify-center gap-2 mt-4 text-xs font-bold">
                 <button id="btn-scoreboard" onclick="switchTab('scoreboard')" class="tab-btn flex-1 py-3 rounded-2xl bg-slate-800 text-white shadow-md transition-all text-[11px] sm:text-xs">현황판</button>
                 <button id="btn-teams" onclick="switchTab('teams')" class="tab-btn flex-1 py-3 rounded-2xl bg-white text-slate-600 transition-all text-[11px] sm:text-xs text-center">선수 관리</button>
                 <button id="btn-records" onclick="switchTab('records')" class="tab-btn flex-1 py-3 rounded-2xl bg-white text-slate-600 transition-all text-[11px] sm:text-xs text-center">기록실</button>
@@ -64,26 +63,25 @@
 
         <!-- Main Score -->
         <div class="card p-6 mb-8 text-center border-b-4 border-slate-200">
-            <h2 class="text-[10px] font-bold text-slate-400 mb-4 uppercase tracking-widest italic text-center">Total Standings (M: 0.5 / W: 1.0)</h2>
-            <div class="flex justify-around items-center text-center">
+            <h2 class="text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-widest italic text-center">Total Standings</h2>
+            <div class="flex justify-around items-center">
                 <div class="flex flex-col flex-1 items-center">
-                    <span class="team-tag ob-tag mb-2 px-4 py-1.5 text-sm italic">OB TEAM</span>
-                    <span id="total-ob" class="text-5xl font-black text-slate-900 tracking-tighter text-center">0.0</span>
+                    <span id="label-total-ob" class="team-tag ob-tag mb-2 px-4 py-1.5 text-sm italic uppercase">OB TEAM</span>
+                    <span id="total-ob" class="text-5xl font-black text-slate-900 tracking-tighter">0.0</span>
                 </div>
-                <div class="text-3xl font-black text-slate-200 mx-2 italic italic text-center">VS</div>
-                <div class="flex flex-col flex-1 items-center text-center">
-                    <span class="team-tag yb-tag mb-2 px-4 py-1.5 text-sm italic">YB TEAM</span>
-                    <span id="total-yb" class="text-5xl font-black text-orange-600 tracking-tighter text-center">0.0</span>
+                <div class="text-3xl font-black text-slate-200 mx-2 italic text-center">VS</div>
+                <div class="flex flex-col flex-1 items-center">
+                    <span id="label-total-yb" class="team-tag yb-tag mb-2 px-4 py-1.5 text-sm italic uppercase">YB TEAM</span>
+                    <span id="total-yb" class="text-5xl font-black text-orange-600 tracking-tighter">0.0</span>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Contents -->
         <div id="tab-scoreboard" class="tab-content active space-y-6"></div>
         
         <div id="tab-teams" class="tab-content space-y-4">
             <div class="card p-5 border-2 border-dashed border-indigo-100 bg-indigo-50/30">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex justify-between items-center mb-4 text-center">
                     <h3 class="text-sm font-black text-indigo-900 flex items-center gap-2 uppercase tracking-tighter italic text-[11px] sm:text-sm">📂 명단 및 참석 관리</h3>
                     <div class="flex gap-1">
                         <button onclick="toggleSelectAll()" id="btn-select-all" class="text-[9px] font-bold text-indigo-600 bg-white border border-indigo-200 px-1.5 py-1 rounded-lg shadow-sm">전체 선택</button>
@@ -96,20 +94,19 @@
                 </label>
                 <input type="file" id="json-upload" accept=".json" class="hidden" onchange="handleJsonUpload(event)">
 
-                <!-- Guest Registration -->
                 <div class="bg-white/60 p-4 rounded-2xl border border-indigo-100 mb-4 shadow-inner text-center">
                     <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-3 text-center">➕ 게스트 등록</p>
                     <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="text" id="guest-name" placeholder="이름" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:border-indigo-500 text-center text-center">
-                        <input type="text" id="guest-invited-by" placeholder="추천인" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:border-indigo-500 text-center text-center">
+                        <input type="text" id="guest-name" placeholder="이름" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:border-indigo-500 text-center">
+                        <input type="text" id="guest-invited-by" placeholder="추천인" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:border-indigo-500 text-center">
                     </div>
-                    <div class="grid grid-cols-2 gap-2 text-center text-center">
+                    <div class="grid grid-cols-2 gap-2 text-center">
                         <div class="flex gap-1.5">
                             <select id="guest-gender" class="flex-1 bg-white border border-slate-200 rounded-xl px-1 py-2 text-xs font-bold outline-none">
                                 <option value="남">남</option>
                                 <option value="여">여</option>
                             </select>
-                            <select id="guest-skill" class="flex-[1.5] bg-white border border-slate-200 rounded-xl px-1 py-2 text-xs font-bold outline-none text-center text-center">
+                            <select id="guest-skill" class="flex-[1.5] bg-white border border-slate-200 rounded-xl px-1 py-2 text-xs font-bold outline-none text-center">
                                 <optgroup label="남성 실력 (1 최상)">
                                     <option value="1">1</option><option value="2">2</option><option value="3">3</option>
                                     <option value="4">4</option><option value="5">5</option><option value="6" selected>6</option>
@@ -125,7 +122,6 @@
                     </div>
                 </div>
                 
-                <!-- Selection Pool -->
                 <div id="member-pool-area" class="hidden text-center text-center">
                     <div class="flex justify-between items-center mb-2">
                         <span id="pool-title" class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center w-full">참석 예정 목록 (<span id="pool-count">0</span>)</span>
@@ -134,19 +130,11 @@
                     
                     <div id="pool-actions" class="space-y-2 text-center text-center">
                         <div class="grid grid-cols-2 gap-2 text-center">
-                            <button id="btn-split-team" onclick="window.autoSplitByBirth()" class="bg-indigo-600 text-white py-3 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-[10px] uppercase tracking-tighter text-center">
-                                🎂 나이순 진영 나누기
-                            </button>
-                            <button id="btn-split-md" onclick="window.splitByMonthDay()" class="bg-indigo-500 text-white py-3 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-[10px] uppercase tracking-tighter text-center">
-                                🍰 월/일 순 진영 나누기
-                            </button>
+                            <button onclick="window.autoSplitByBirth()" class="bg-indigo-600 text-white py-3 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-[10px] uppercase tracking-tighter">🎂 나이순 나누기</button>
+                            <button onclick="window.splitByMonthDay()" class="bg-indigo-500 text-white py-3 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-[10px] uppercase tracking-tighter">🍰 월/일 순 나누기</button>
                         </div>
-                        <button id="btn-strategic-split" onclick="window.strategicSplit()" class="w-full bg-slate-800 text-white py-3.5 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-xs uppercase tracking-tighter text-center">
-                            🔥 특수 전략 나누기 (94묶기/커플/게스트)
-                        </button>
-                        <button id="btn-confirm-delete" onclick="window.confirmDeleteMembers()" class="hidden w-full bg-red-600 text-white py-3.5 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-sm uppercase tracking-tighter text-center text-center text-center">
-                            ⚠️ 선택한 회원 삭제 확정
-                        </button>
+                        <button onclick="window.strategicSplit()" class="w-full bg-slate-800 text-white py-3.5 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-xs uppercase tracking-tighter">🔥 전략적 나누기 (94묶음)</button>
+                        <button id="btn-confirm-delete" onclick="window.confirmDeleteMembers()" class="hidden w-full bg-red-600 text-white py-3.5 rounded-2xl font-black shadow-lg active:scale-95 transition-transform text-sm uppercase tracking-tighter">⚠️ 선택한 회원 삭제 확정</button>
                     </div>
                 </div>
             </div>
@@ -155,23 +143,26 @@
         </div>
 
         <div id="tab-records" class="tab-content text-center">
-            <div class="card p-6 text-center text-center">
+            <div class="card p-6 text-center">
                 <h3 class="text-xl font-bold mb-4 flex items-center gap-2 italic uppercase text-center">🏆 Ranking</h3>
-                <div id="ranking-container" class="space-y-3 text-center text-center text-center"></div>
+                <div id="ranking-container" class="space-y-3 text-center"></div>
             </div>
         </div>
 
-        <div class="mt-8 flex gap-3 text-center text-center text-center text-center">
+        <div class="mt-8 flex gap-3 text-center">
             <button onclick="copyStatus()" class="flex-1 bg-slate-900 text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-transform text-sm uppercase tracking-tighter text-center">현황 복사</button>
-            <button id="btn-reset-main" onclick="showConfirm('스코어 초기화', '득점 기록만 삭제하시겠습니까?', resetScoresOnly)" class="px-6 bg-red-100 text-red-700 py-4 rounded-2xl font-bold border border-red-200 active:scale-95 transition-transform text-sm uppercase tracking-tighter text-center text-center text-center">초기화</button>
+            <button id="btn-reset-main" onclick="showConfirm('초기화', '득점 기록만 삭제하시겠습니까?', resetScoresOnly)" class="px-6 bg-red-100 text-red-700 py-4 rounded-2xl font-bold border border-red-200 active:scale-95 transition-transform text-sm uppercase tracking-tighter text-center">초기화</button>
         </div>
     </div>
 
-    <!-- Modals -->
-    <div id="scoring-modal" class="modal"><div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] text-center text-center text-center"><div class="p-6 bg-slate-900 text-white flex justify-between items-center shrink-0"><div><span id="modal-match-info" class="text-[10px] font-bold text-slate-400 uppercase text-center">Match Details</span><h3 id="modal-match-title" class="text-xl font-black italic uppercase tracking-tighter text-center text-center text-center">OB vs YB</h3></div><button onclick="closeModal('scoring-modal')" class="text-2xl">&times;</button></div><div class="p-6 overflow-y-auto text-center"><div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center text-center text-center"><div><h4 id="modal-left-team-container" class="text-center mb-4 border-b-2 pb-3 text-center text-center"></h4><div id="modal-left-players" class="space-y-3 text-center text-center"></div></div><div><h4 id="modal-right-team-container" class="text-center mb-4 border-b-2 pb-3 text-center text-center text-center"></h4><div id="modal-right-players" class="space-y-3 text-center text-center"></div></div></div></div><div class="p-4 bg-slate-50 border-t"><button onclick="closeModal('scoring-modal')" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active:scale-95 transition-transform uppercase tracking-widest text-center text-center text-center text-center">Done</button></div></div></div>
-    <div id="confirm-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 text-center shadow-2xl text-center text-center text-center"><h3 id="confirm-title" class="text-lg font-black text-slate-800 mb-2 font-bold italic uppercase tracking-tighter text-center text-center">Confirm</h3><p id="confirm-msg" class="text-sm text-slate-600 mb-6 text-center text-center"></p><div class="flex gap-2 text-center text-center text-center"><button onclick="closeModal('confirm-modal')" class="flex-1 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm text-center text-center text-center">Cancel</button><button id="confirm-action-btn" class="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold text-sm text-center text-center text-center text-center">Confirm</button></div></div></div>
-    <div id="edit-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 border-2 border-slate-900 shadow-2xl text-center text-center text-center text-center"><h3 class="text-lg font-black text-slate-800 mb-4 text-center italic uppercase tracking-tighter text-center text-center text-center">Edit Player</h3><div class="space-y-4 mb-6 text-center text-center text-center"><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">이름</label><input type="text" id="edit-player-name" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center text-center"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center">성별</label><select id="edit-player-gender" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center text-center text-center"><option value="남">남성</option><option value="여">여성</option></select></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center text-center">실력 점수</label><input type="number" id="edit-player-skill" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center" min="1" max="12"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center text-center text-center">소속 진영/팀</label><select id="edit-player-team" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center text-center"></select></div></div><div class="flex gap-2 text-center text-center text-center text-center text-center text-center"><button onclick="closeModal('edit-modal')" class="flex-1 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm text-center text-center text-center text-center">Cancel</button><button id="edit-save-btn" class="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm active:scale-95 transition-transform uppercase tracking-tighter text-center text-center">Save</button></div></div></div>
+    <!-- Renaming Modal -->
+    <div id="rename-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 border-2 border-slate-900 shadow-2xl text-center"><h3 class="text-lg font-black text-slate-800 mb-4 text-center italic uppercase tracking-tighter">진영/팀 이름 수정</h3><input type="text" id="rename-input" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center mb-6"><div class="flex gap-2 text-center"><button onclick="closeModal('rename-modal')" class="flex-1 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm text-center">취소</button><button id="rename-save-btn" class="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm text-center">저장</button></div></div></div>
+
+    <!-- Player Edit Modal -->
+    <div id="edit-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 border-2 border-slate-900 shadow-2xl text-center"><h3 class="text-lg font-black text-slate-800 mb-4 text-center italic uppercase tracking-tighter">선수 정보 수정</h3><div class="space-y-4 mb-6 text-center"><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">이름</label><input type="text" id="edit-player-name" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">성별</label><select id="edit-player-gender" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center"><option value="남">남성</option><option value="여">여성</option></select></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1">실력 점수</label><input type="number" id="edit-player-skill" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold focus:border-slate-900 text-center" min="1" max="12"></div><div><label class="text-[10px] font-bold text-slate-400 uppercase ml-1 text-center">소속 팀</label><select id="edit-player-team" class="w-full border-2 border-slate-100 rounded-xl px-4 py-2.5 outline-none font-bold bg-white text-center"></select></div></div><div class="flex gap-2 text-center"><button onclick="closeModal('edit-modal')" class="flex-1 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm text-center text-center">Cancel</button><button id="edit-save-btn" class="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm active:scale-95 transition-transform uppercase tracking-tighter text-center">Save</button></div></div></div>
     
+    <div id="confirm-modal" class="modal"><div class="bg-white w-full max-w-xs rounded-3xl p-6 text-center shadow-2xl text-center"><h3 id="confirm-title" class="text-lg font-black text-slate-800 mb-2 font-bold italic text-center">Check</h3><p id="confirm-msg" class="text-sm text-slate-600 mb-6 text-center"></p><div class="flex gap-2 text-center text-center"><button onclick="closeModal('confirm-modal')" class="flex-1 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm text-center">Cancel</button><button id="confirm-action-btn" class="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold text-sm text-center">Confirm</button></div></div></div>
+    <div id="scoring-modal" class="modal"><div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] text-center"><div class="p-6 bg-slate-900 text-white flex justify-between items-center shrink-0"><div><span id="modal-match-info" class="text-[10px] font-bold text-slate-400 uppercase text-center">Match Details</span><h3 id="modal-match-title" class="text-xl font-black italic uppercase tracking-tighter text-center">OB vs YB</h3></div><button onclick="closeModal('scoring-modal')" class="text-2xl">&times;</button></div><div class="p-6 overflow-y-auto text-center"><div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-center text-center"><div><h4 id="modal-left-team-container" class="text-center mb-4 border-b-2 pb-3 text-center text-center"></h4><div id="modal-left-players" class="space-y-3 text-center text-center"></div></div><div><h4 id="modal-right-team-container" class="text-center mb-4 border-b-2 pb-3 text-center text-center text-center"></h4><div id="modal-right-players" class="space-y-3 text-center text-center text-center"></div></div></div></div><div class="p-4 bg-slate-50 border-t"><button onclick="closeModal('scoring-modal')" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active:scale-95 transition-transform uppercase tracking-widest text-center text-center">Done</button></div></div></div>
     <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold text-xs shadow-2xl opacity-0 transition-opacity pointer-events-none z-[200]">Status</div>
 
     <script type="module">
@@ -179,7 +170,7 @@
         import { getFirestore, doc, onSnapshot, setDoc, enableMultiTabIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // --- Config & Matches Data ---
+        // --- Config & Static Data ---
         const matchesRaw = [{q:"1회",a:["OB-1","YB-1"],b:["OB-2","YB-2"]},{q:"2회",a:["OB-1","YB-2"],b:["OB-2","YB-1"]},{q:"3회",a:["OB-2","YB-1"],b:["OB-1","YB-2"]},{q:"4회",a:["OB-2","YB-2"],b:["OB-1","YB-1"]},{q:"5회",a:["OB-1","YB-1"],b:["OB-2","YB-2"]},{q:"6회",a:["OB-1","YB-2"],b:["OB-2","YB-1"]}];
         const flatMatches = []; matchesRaw.forEach((m,i)=>{
             flatMatches.push({q:m.q,court:'A',teams:m.a,idx:i*2});
@@ -203,26 +194,36 @@
         const appId = 'otp-fc-stable-master'; 
         const stateDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'gameState', 'current');
 
+        const DEFAULT_LABELS = { "OB 진영": "OB 진영", "YB 진영": "YB 진영", "OB-1": "OB-1", "OB-2": "OB-2", "YB-1": "YB-1", "YB-2": "YB-2" };
         const DEFAULT_TEAMS = {"OB 진영":[], "YB 진영":[], "OB-1":[], "OB-2":[], "YB-1":[], "YB-2":[]};
-        let state = { teams: JSON.parse(JSON.stringify(DEFAULT_TEAMS)), matchScores:Array(12).fill(null).map(()=>({})), memberPool: [], selectionMap: {} };
+        
+        let state = { teams: JSON.parse(JSON.stringify(DEFAULT_TEAMS)), labels: JSON.parse(JSON.stringify(DEFAULT_LABELS)), matchScores:Array(12).fill(null).map(()=>({})), memberPool: [], selectionMap: {} };
         let isDeleteMode = false; let currentMatchIdx = null; let user = null;
 
         // --- Helpers ---
         function getNormalizedPower(p) { const level = parseInt(p.skill) || (p.gender === '여' ? 10 : 4); return 13 - level; }
-        function getTeamTagClass(teamName) {
-            if (teamName === 'OB 진영') return 'ob-camp-tag';
-            if (teamName === 'YB 진영') return 'yb-camp-tag';
-            if (teamName === 'OB-1') return 'ob1-tag';
-            if (teamName === 'OB-2') return 'ob2-tag';
-            if (teamName === 'YB-1') return 'yb1-tag';
-            if (teamName === 'YB-2') return 'yb2-tag';
-            return teamName.startsWith('OB') ? 'ob-tag' : 'yb-tag';
+        function getTeamTagClass(teamKey) {
+            if (teamKey === 'OB 진영') return 'ob-camp-tag';
+            if (teamKey === 'YB 진영') return 'yb-camp-tag';
+            if (teamKey === 'OB-1') return 'ob1-tag';
+            if (teamKey === 'OB-2') return 'ob2-tag';
+            if (teamKey === 'YB-1') return 'yb1-tag';
+            if (teamKey === 'YB-2') return 'yb2-tag';
+            return 'ob-tag';
         }
+        function getLabel(key) { return (state.labels && state.labels[key]) ? state.labels[key] : key; }
 
-        // --- Core Rendering Functions ---
+        // --- Core Rendering ---
         function renderMatchList() {
             const container = document.getElementById('tab-scoreboard'); if (!container || !container.classList.contains('active')) return;
-            container.innerHTML = matchesRaw.map((q, i) => `<div class="card overflow-hidden border-2 border-slate-50 shadow-sm text-center"><div class="bg-slate-50 px-5 py-3.5 border-b-2 border-slate-100 flex justify-between items-center font-black text-slate-900 uppercase italic tracking-tighter"><span>${q.q} 매치</span></div><div class="divide-y-2 divide-slate-50 text-center text-center text-center text-center">${[flatMatches[i*2], flatMatches[i*2+1]].map(m=>{const s=getScore(m.idx,m.teams[0],m.teams[1]); return `<div class="p-5 hover:bg-slate-50 active:bg-slate-100 cursor-pointer flex items-center justify-between transition-colors text-center text-center text-center" onclick="window.openMatchModal(${m.idx})"><div class="flex items-center gap-3 text-left"><span class="text-[10px] font-black text-slate-300 italic border-r-2 pr-3 uppercase">C-${m.court}</span><div class="flex flex-col gap-1.5 text-left text-left text-left"><div class="flex items-center gap-1.5 text-left text-left text-left"><span class="team-tag ${getTeamTagClass(m.teams[0])} !text-[10px] !px-1.5 !py-0.5 text-center">${m.teams[0]}</span><span class="text-[9px] font-black text-slate-200 uppercase tracking-tighter text-center text-center text-center">vs</span><span class="team-tag ${getTeamTagClass(m.teams[1])} !text-[10px] !px-1.5 !py-0.5 text-center text-center text-center text-center text-center text-center">${m.teams[1]}</span></div><span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest text-center text-center text-center text-center text-center text-center">${m.court==='A'?'OB':'YB'} HOME</span></div></div><div class="font-black text-3xl tracking-tighter text-slate-900 text-center text-center text-center text-center text-center">${s.l} : ${s.r}</div></div>`}).join('')}</div></div>`).join('');
+            container.innerHTML = matchesRaw.map((q, i) => {
+                const mA = flatMatches[i*2], mB = flatMatches[i*2+1];
+                const sA = getScore(mA.idx, mA.teams[0], mA.teams[1]), sB = getScore(mB.idx, mB.teams[0], mB.teams[1]);
+                return `<div class="card overflow-hidden border-2 border-slate-50 shadow-sm mb-4"><div class="bg-slate-50 px-5 py-3 border-b-2 border-slate-100 flex justify-between items-center font-black text-slate-900 uppercase italic"><span>${q.q} 매치</span></div><div class="divide-y-2 divide-slate-50 text-center">${[mA, mB].map((m, mi) => {
+                    const s = mi === 0 ? sA : sB;
+                    const lT = getTeamTagClass(m.teams[0]), rT = getTeamTagClass(m.teams[1]);
+                    return `<div class="p-5 hover:bg-slate-50 active:bg-slate-100 cursor-pointer flex items-center justify-between" onclick="window.openMatchModal(${m.idx})"><div class="flex items-center gap-3 text-left"><span class="text-[10px] font-black text-slate-300 italic border-r-2 pr-3 uppercase">C-${m.court}</span><div class="flex flex-col gap-1"><div class="flex items-center gap-1.5"><span class="team-tag ${lT} !text-[10px] !px-1.5 !py-0.5">${getLabel(m.teams[0])}</span><span class="text-[9px] font-black text-slate-200">VS</span><span class="team-tag ${rT} !text-[10px] !px-1.5 !py-0.5">${getLabel(m.teams[1])}</span></div><span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest text-center">${m.court==='A'?'OB':'YB'} HOME</span></div></div><div class="font-black text-3xl tracking-tighter text-slate-900">${s.l} : ${s.r}</div></div>`}).join('')}</div></div>`;
+            }).join('');
             updateTotal();
         }
 
@@ -232,36 +233,8 @@
             container.innerHTML = order.map(t => {
                 const teamData = state.teams[t] || [];
                 const isCamp = t.includes('진영');
-                const campActions = isCamp ? `<button onclick="window.splitTeamsEqually('${t}', '${t.split(' ')[0]}-1', '${t.split(' ')[0]}-2')" class="text-[9px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-200 px-2 py-1 rounded-lg mt-2 w-full active:scale-95 transition-all text-center">⚡ 실력/성별 균등 팀 나누기</button>` : '';
-                return `
-                <div class="card p-5 border border-slate-100 mb-2 overflow-hidden text-center text-center text-center">
-                    <div class="flex justify-between items-center mb-3 text-center text-center">
-                        <span class="team-tag ${getTeamTagClass(t)} text-base px-3 py-1 italic uppercase text-center">${t} (${teamData.length}명)</span>
-                        <button onclick="window.showConfirm('${t} 초기화','명단을 비울까요?',()=>window.clearTeam('${t}'))" class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-1 rounded-lg text-center text-center text-center text-center text-center">Clear</button>
-                    </div>
-                    ${campActions}
-                    <div class="team-list-area space-y-2 my-4 min-h-[60px] text-center text-center" data-team="${t}">
-                        ${teamData.length === 0 ? '<p class="text-[10px] text-slate-300 text-center py-4 italic pointer-events-none text-center text-center">Empty</p>' : ''}
-                        ${teamData.map(p => `
-                            <div class="player-item flex justify-between items-center bg-white p-3.5 rounded-2xl text-sm border-2 border-slate-100 shadow-sm text-center text-center" data-id="${p.id}">
-                                <div class="flex flex-col truncate pr-1 text-left pointer-events-none text-left text-left">
-                                    <span class="font-bold text-slate-800 text-left">${p.name} <span class="skill-badge">S${p.skill}</span> <span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600 border-rose-100 bg-rose-50':'text-blue-600 border-blue-100 bg-blue-50'} ml-1 uppercase border px-1.5 py-0.5 rounded text-left text-left">${p.gender}</span></span>
-                                    ${p.invitedBy ? `<span class="text-[9px] text-slate-400 font-medium text-left text-left">추천인: ${p.invitedBy}</span>` : ''}
-                                </div>
-                                <div class="flex gap-4 shrink-0 text-center text-center">
-                                    <button onclick="window.openEditModal('${t}','${p.id}')" class="text-slate-800 font-black text-[11px] underline text-center text-center">Edit</button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="space-y-2 bg-slate-50 p-3 rounded-3xl border border-slate-100 text-center text-center">
-                        <input type="text" id="input-name-${t}" placeholder="이름" class="w-full bg-white border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-slate-900 transition-colors text-center text-center text-center text-center text-center">
-                        <div class="flex gap-2 text-center text-center text-center text-center">
-                            <select id="input-gender-${t}" class="flex-1 bg-white border-2 border-slate-100 rounded-xl px-3 text-sm font-black text-slate-700 outline-none h-12 appearance-none text-center text-center text-center text-center text-center"><option value="남">남성</option><option value="여">여성</option></select>
-                            <button onclick="window.addPlayer('${t}')" class="flex-[1.5] bg-slate-900 text-white rounded-xl flex items-center justify-center font-black shadow-lg active:scale-95 h-12 text-sm uppercase tracking-tighter text-center text-center text-center text-center">Add +</button>
-                        </div>
-                    </div>
-                </div>`;
+                const campActions = isCamp ? `<button onclick="window.splitTeamsEqually('${t}', '${t.split(' ')[0]}-1', '${t.split(' ')[0]}-2')" class="text-[9px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-200 px-2 py-1 rounded-lg mt-2 w-full active:scale-95 transition-all">⚡ 실력/성별 균등 팀 나누기</button>` : '';
+                return `<div class="card p-5 border border-slate-100 mb-2 overflow-hidden text-center"><div class="flex justify-between items-center mb-3"><div class="flex items-center gap-2"><span class="team-tag ${getTeamTagClass(t)} text-base px-3 py-1 italic uppercase">${getLabel(t)} (${teamData.length}명)</span><button onclick="window.openRenameModal('${t}')" class="text-slate-300 hover:text-slate-600">📝</button></div><button onclick="window.showConfirm('${getLabel(t)} 초기화','명단을 비울까요?',()=>window.clearTeam('${t}'))" class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-1 rounded-lg">Clear</button></div>${campActions}<div class="team-list-area space-y-2 my-4 min-h-[60px]" data-team="${t}">${teamData.length === 0 ? '<p class="text-[10px] text-slate-300 text-center py-6 italic pointer-events-none">Empty</p>' : ''}${teamData.map(p => `<div class="player-item flex justify-between items-center bg-white p-3.5 rounded-2xl text-sm border-2 border-slate-50 shadow-sm" data-id="${p.id}"><div class="flex flex-col truncate pr-1 text-left pointer-events-none"><span class="font-bold text-slate-800 text-left text-left">${p.name} <span class="skill-badge">S${p.skill}</span> <span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600 border-rose-100 bg-rose-50':'text-blue-600 border-blue-100 bg-blue-50'} ml-1 uppercase border px-1.5 py-0.5 rounded text-left">${p.gender}</span></span>${p.invitedBy ? `<span class="text-[9px] text-slate-400 font-medium text-left">추천인: ${p.invitedBy}</span>` : ''}</div><div class="flex gap-4 shrink-0"><button onclick="window.openEditModal('${t}','${p.id}')" class="text-slate-800 font-black text-[11px] underline">Edit</button></div></div>`).join('')}</div><div class="space-y-2 bg-slate-50 p-3 rounded-3xl border border-slate-100"><input type="text" id="input-name-${t}" placeholder="이름" class="w-full bg-white border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-slate-900 transition-colors text-center text-center"><div class="flex gap-2"><select id="input-gender-${t}" class="flex-1 bg-white border-2 border-slate-100 rounded-xl px-3 text-sm font-black text-slate-700 outline-none h-12 appearance-none text-center"><option value="남">남성</option><option value="여">여성</option></select><button onclick="window.addPlayer('${t}')" class="flex-[1.5] bg-slate-900 text-white rounded-xl flex items-center justify-center font-black shadow-lg active:scale-95 h-12 text-sm uppercase tracking-tighter text-center text-center text-center">Add +</button></div></div></div>`;
             }).join('');
             initSortable();
         }
@@ -271,10 +244,42 @@
             state.matchScores.forEach(ms=>{for(let pid in ms){if(stats[pid]){stats[pid].goals+=ms[pid]; stats[pid].pts+=ms[pid]*(stats[pid].gender==='여'?1:0.5);}}});
             const srt = Object.values(stats).filter(p=>p.goals>0).sort((a,b)=>b.pts-a.pts||b.goals-a.goals);
             const container = document.getElementById('ranking-container'); if(!container || !srt.length) { if(container) container.innerHTML=`<p class="text-center py-20 text-slate-300 font-bold italic uppercase tracking-widest text-center text-center text-center text-center text-center">No Stats Recorded</p>`; return; }
-            container.innerHTML = srt.map((p,i)=> `<div class="flex items-center justify-between p-5 bg-white rounded-3xl border-2 border-slate-50 shadow-sm hover:shadow-md transition-shadow text-center text-center text-center text-center text-center text-center"><div class="flex items-center gap-4 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><span class="text-2xl font-black italic ${i<3?'text-orange-500':'text-slate-200'} text-center text-center text-center text-center">#${i+1}</span><div class="text-left text-left text-left text-left text-left"><p class="font-bold text-slate-900 text-sm flex items-center gap-2 text-left text-left text-left text-left">${p.name} <span class="team-tag ${getTeamTagClass(p.team)} !text-[8px] !px-1.5 !py-0.5 !rounded-md text-center text-center text-center text-center">${p.team}</span></p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left text-left text-left text-left text-left">${p.gender} | S${p.skill} | ${p.goals} GOALS</p></div></div><div class="text-right text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"><span class="text-2xl font-black text-slate-900 tracking-tighter text-center text-center text-center text-center text-center">${p.pts.toFixed(1)}</span><span class="text-[10px] font-black text-slate-300 ml-0.5 uppercase text-center text-center text-center">PTS</span></div></div>`).join('');
+            container.innerHTML = srt.map((p,i)=> `<div class="flex items-center justify-between p-5 bg-white rounded-3xl border-2 border-slate-50 shadow-sm hover:shadow-md transition-shadow text-center text-center text-center text-center text-center text-center"><div class="flex items-center gap-4 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><span class="text-2xl font-black italic ${i<3?'text-orange-500':'text-slate-200'} text-center text-center text-center text-center">#${i+1}</span><div class="text-left text-left text-left text-left text-left text-left"><p class="font-bold text-slate-900 text-sm flex items-center gap-2 text-left text-left text-left text-left text-left text-left text-left">${p.name} <span class="team-tag ${getTeamTagClass(p.team)} !text-[8px] !px-1.5 !py-0.5 !rounded-md text-center text-center text-center text-center">${getLabel(p.team)}</span></p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left text-left text-left text-left text-left text-left text-left">${p.gender} | S${p.skill} | ${p.goals} GOALS</p></div></div><div class="text-right text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"><span class="text-2xl font-black text-slate-900 tracking-tighter text-center text-center text-center text-center text-center text-center">${p.pts.toFixed(1)}</span><span class="text-[10px] font-black text-slate-300 ml-0.5 uppercase text-center text-center text-center text-center">PTS</span></div></div>`).join('');
         }
 
-        // --- Action Functions ---
+        // --- Name Modification ---
+        window.openRenameModal = (key) => {
+            const currentLabel = getLabel(key);
+            document.getElementById('rename-input').value = currentLabel;
+            document.getElementById('rename-save-btn').onclick = () => {
+                const newLabel = document.getElementById('rename-input').value.trim();
+                if (newLabel) {
+                    if (!state.labels) state.labels = JSON.parse(JSON.stringify(DEFAULT_LABELS));
+                    state.labels[key] = newLabel;
+                    pushState();
+                    closeModal('rename-modal');
+                }
+            };
+            document.getElementById('rename-modal').classList.add('active');
+        };
+
+        // --- Drag & Drop ---
+        function initSortable() {
+            const containers = document.querySelectorAll('.team-list-area');
+            containers.forEach(el => {
+                new Sortable(el, { group: 'all-teams', animation: 180, ghostClass: 'sortable-ghost',
+                    onEnd: function (evt) {
+                        const from = evt.from.dataset.team, to = evt.to.dataset.team, pid = evt.item.dataset.id;
+                        if (from === to && evt.oldIndex === evt.newIndex) return;
+                        const pObj = state.teams[from].find(p => p.id === pid); if (!pObj) return;
+                        state.teams[from] = state.teams[from].filter(p => p.id !== pid);
+                        state.teams[to].splice(evt.newIndex, 0, pObj); pushState();
+                    }
+                });
+            });
+        }
+
+        // --- Action Handlers ---
         window.registerGuest = () => {
             const name = document.getElementById('guest-name').value.trim();
             const birthYear = document.getElementById('guest-birth-year').value.trim();
@@ -302,23 +307,9 @@
             event.target.value = '';
         };
 
-        window.toggleDeleteMode = () => {
-            isDeleteMode = !isDeleteMode;
-            document.getElementById('btn-delete-mode').innerText = isDeleteMode ? "삭제 취소" : "명단 삭제";
-            renderMemberPool();
-        };
-
-        window.toggleSelectMember = (memberId) => { state.selectionMap[memberId] = !state.selectionMap[memberId]; pushState(); };
-        window.toggleSelectAll = () => { const allS = state.memberPool.every(m => state.selectionMap[m.id]); state.memberPool.forEach(m => state.selectionMap[m.id] = !allS); pushState(); };
-        window.confirmDeleteMembers = () => {
-            const count = state.memberPool.filter(m => state.selectionMap[m.id]).length;
-            if (count === 0) return;
-            window.showConfirm('삭제 확정', `${count}명을 영구 삭제할까요?`, () => { state.memberPool = state.memberPool.filter(m => !state.selectionMap[m.id]); state.selectionMap = {}; pushState(); window.toggleDeleteMode(); });
-        };
-
         window.autoSplitByBirth = () => {
             const selected = state.memberPool.filter(m => state.selectionMap[m.id]);
-            if (selected.length < 2) return window.showToast("2명 이상 선택");
+            if (selected.length < 2) return window.showToast("최소 2명 이상 선택");
             const sorted = [...selected].sort((a, b) => a.birthDate.localeCompare(b.birthDate));
             state.teams = JSON.parse(JSON.stringify(DEFAULT_TEAMS));
             const obCount = Math.ceil(sorted.length / 2);
@@ -342,24 +333,19 @@
             const selected = state.memberPool.filter(m => state.selectionMap[m.id]);
             if (selected.length < 2) return window.showToast("인원 부족");
             state.teams = JSON.parse(JSON.stringify(DEFAULT_TEAMS));
-            const guests = selected.filter(m => m.isGuest);
             const members = selected.filter(m => !m.isGuest);
-
-            const targetNames = ["최서호", "홍권표"];
-            const obMen = members.filter(m => m.gender === '남' && (m.birthDate.startsWith('1994') || targetNames.includes(m.name)));
+            const guests = selected.filter(m => m.isGuest);
+            const obMen = members.filter(m => m.gender === '남' && (m.birthDate.startsWith('1994') || ["최서호", "홍권표"].includes(m.name)));
             const otherMen = members.filter(m => m.gender === '남' && !obMen.find(c => c.id === m.id));
-
             const coupleWomen = members.filter(m => m.gender === '여' && m.isCouple);
             const hanSuJung = members.find(m => m.name === '한수정');
             const otherWomen = members.filter(m => m.gender === '여' && !coupleWomen.find(c => c.id === m.id) && (hanSuJung ? m.id !== hanSuJung.id : true)).sort((a, b) => a.birthDate.localeCompare(b.birthDate));
 
             obMen.forEach(m => state.teams["OB 진영"].push(m));
             coupleWomen.forEach(m => state.teams["OB 진영"].push(m));
-            
             otherMen.forEach(m => state.teams["YB 진영"].push(m));
             guests.forEach(m => state.teams["YB 진영"].push(m));
             if(hanSuJung) state.teams["YB 진영"].push(hanSuJung);
-
             const half = Math.ceil(otherWomen.length / 2);
             otherWomen.slice(0, half).forEach(m => state.teams["YB 진영"].push(m));
             otherWomen.slice(half).forEach(m => state.teams["OB 진영"].push(m));
@@ -367,7 +353,7 @@
         };
 
         window.splitTeamsEqually = (campName, teamA, teamB) => {
-            const group = state.teams[campName] || []; if (group.length < 2) return window.showToast("인원이 부족합니다.");
+            const group = state.teams[campName] || []; if (group.length < 2) return window.showToast("인원 부족");
             const females = group.filter(p => p.gender === '여').sort((a,b) => getNormalizedPower(b) - getNormalizedPower(a));
             const males = group.filter(p => p.gender === '남').sort((a,b) => getNormalizedPower(b) - getNormalizedPower(a));
             state.teams[teamA] = []; state.teams[teamB] = [];
@@ -375,6 +361,59 @@
             snake(females, teamA, teamB); snake(males, teamA, teamB);
             state.teams[campName] = []; pushState();
         };
+
+        // --- Common UI Functions ---
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('bg-slate-800','text-white','shadow-md'); b.classList.add('bg-white','text-slate-600'); });
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            const targetBtn = document.getElementById(`btn-${tab}`);
+            targetBtn.classList.replace('bg-white','bg-slate-800'); targetBtn.classList.replace('text-slate-600','text-white');
+            renderAll();
+        };
+        window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); if (id === 'scoring-modal') currentMatchIdx = null; };
+        window.showConfirm = (title, msg, fn) => { document.getElementById('confirm-title').innerText = title; document.getElementById('confirm-msg').innerText = msg; document.getElementById('confirm-action-btn').onclick = () => { fn(); window.closeModal('confirm-modal'); }; document.getElementById('confirm-modal').classList.add('active'); };
+        window.showToast = (msg) => { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('opacity-100'); setTimeout(() => t.classList.remove('opacity-100'), 2000); };
+        window.copyStatus = () => { const text = `[OTP FC LIVE]\n${getLabel('OB 진영').split(' ')[0]} ${document.getElementById('total-ob').innerText} : ${document.getElementById('total-yb').innerText} ${getLabel('YB 진영').split(' ')[0]}\n실시간: ${window.location.href}`; const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); window.showToast("복사되었습니다."); };
+
+        window.addPlayer = (teamName) => {
+            const name = document.getElementById(`input-name-${teamName}`).value.trim(); if(!name) return;
+            const gender = document.getElementById(`input-gender-${teamName}`).value;
+            state.teams[teamName].push({ id: 'p_'+Date.now(), name, gender, skill: (gender === '여' ? 10 : 4) });
+            pushState(); document.getElementById(`input-name-${teamName}`).value = ''; 
+        };
+        window.removePlayer = (teamName, pid) => { state.teams[teamName] = state.teams[teamName].filter(p => p.id !== pid); pushState(); };
+        window.clearTeam = (teamName) => { state.teams[teamName] = []; pushState(); };
+        window.openEditModal = (teamName, pid) => {
+            const p = state.teams[teamName].find(p => p.id === pid); if (!p) return;
+            document.getElementById('edit-player-name').value = p.name; document.getElementById('edit-player-gender').value = p.gender; document.getElementById('edit-player-skill').value = p.skill;
+            const select = document.getElementById('edit-player-team');
+            select.innerHTML = Object.keys(state.teams).map(key => `<option value="${key}">${getLabel(key)}</option>`).join('');
+            select.value = teamName;
+            document.getElementById('edit-save-btn').onclick = () => {
+                const nt = select.value; p.name = document.getElementById('edit-player-name').value; p.gender = document.getElementById('edit-player-gender').value; p.skill = parseInt(document.getElementById('edit-player-skill').value);
+                if (nt !== teamName) { state.teams[teamName] = state.teams[teamName].filter(x => x.id !== pid); state.teams[nt].push(p); }
+                pushState(); window.closeModal('edit-modal');
+            };
+            document.getElementById('edit-modal').classList.add('active');
+        };
+        window.openMatchModal = (idx) => {
+            currentMatchIdx = idx; const m = flatMatches.find(f => f.idx === idx);
+            document.getElementById('modal-match-info').innerText = `${m.q} - Court ${m.court}`;
+            document.getElementById('modal-match-title').innerText = `${getLabel(m.teams[0])} VS ${getLabel(m.teams[1])}`;
+            document.getElementById('modal-left-team-container').innerHTML = `<span class="team-tag ${getTeamTagClass(m.teams[0])}">${getLabel(m.teams[0])}</span>`;
+            document.getElementById('modal-right-team-container').innerHTML = `<span class="team-tag ${getTeamTagClass(m.teams[1])}">${getLabel(m.teams[1])}</span>`;
+            renderModalPlayers(); document.getElementById('scoring-modal').classList.add('active');
+        };
+        window.goal = (pid, d) => { if (currentMatchIdx === null) return; state.matchScores[currentMatchIdx][pid] = Math.max(0, (state.matchScores[currentMatchIdx][pid] || 0) + d); pushState(); };
+        window.resetScoresOnly = () => { state.matchScores = Array(12).fill(null).map(() => ({})); pushState(); };
+
+        function renderModalPlayers() {
+            if (currentMatchIdx === null) return;
+            const m = flatMatches.find(f => f.idx === currentMatchIdx);
+            const rl = (t) => (state.teams[t]||[]).length?state.teams[t].map(p=>`<div class="flex justify-between items-center bg-white p-4 rounded-3xl border-2 border-slate-50 shadow-sm text-center"><div class="flex flex-col text-left"><span class="font-bold text-sm text-slate-800 text-left">${p.name} <span class="skill-badge">S${p.skill}</span></span><span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600':'text-blue-600'} uppercase text-center text-center">x${p.gender==='여'?'1.0':'0.5'}</span></div><div class="flex items-center gap-4 text-center"><button onclick="window.goal('${p.id}',-1)" class="w-10 h-10 rounded-full border-2 border-slate-100 text-slate-400 font-black active:bg-slate-100">-</button><span class="font-black text-xl w-6 text-center text-slate-900">${state.matchScores[currentMatchIdx][p.id]||0}</span><button onclick="window.goal('${p.id}',1)" class="w-10 h-10 rounded-full bg-slate-900 text-white font-black active:scale-125 transition-transform shadow-md">+</button></div></div>`).join(''):`<p class="text-[10px] text-slate-300 text-center py-10 italic uppercase text-center">No Players</p>`;
+            document.getElementById('modal-left-players').innerHTML = rl(m.teams[0]); document.getElementById('modal-right-players').innerHTML = rl(m.teams[1]);
+        }
 
         function getScore(mid, tL, tR) {
             let l=0, r=0; (state.teams[tL]||[]).forEach(p=>l+=(state.matchScores[mid][p.id]||0)*(p.gender==='여'?1:0.5)); (state.teams[tR]||[]).forEach(p=>r+=(state.matchScores[mid][p.id]||0)*(p.gender==='여'?1:0.5));
@@ -389,75 +428,9 @@
             });
             if(document.getElementById('total-ob')) document.getElementById('total-ob').innerText = ob.toFixed(1);
             if(document.getElementById('total-yb')) document.getElementById('total-yb').innerText = yb.toFixed(1);
+            if(document.getElementById('label-total-ob')) document.getElementById('label-total-ob').innerText = getLabel('OB 진영').split(' ')[0] + ' TEAM';
+            if(document.getElementById('label-total-yb')) document.getElementById('label-total-yb').innerText = getLabel('YB 진영').split(' ')[0] + ' TEAM';
         }
-
-        function renderModalPlayers() {
-            const m = flatMatches.find(f => f.idx === currentMatchIdx); if(!m) return;
-            const rl = (t) => (state.teams[t]||[]).length?state.teams[t].map(p=>`<div class="flex justify-between items-center bg-white p-4 rounded-3xl border-2 border-slate-50 shadow-sm text-center text-center text-center text-center"><div class="flex flex-col text-left text-left text-left"><span class="font-bold text-sm text-slate-800 text-left text-left text-left">${p.name} <span class="skill-badge">S${p.skill}</span></span><span class="text-[9px] font-black ${p.gender==='여'?'text-rose-600':'text-blue-600'} uppercase tracking-widest text-center text-center text-center text-center">x${p.gender==='여'?'1.0':'0.5'}</span></div><div class="flex items-center gap-4 text-center text-center text-center text-center"><button onclick="window.goal('${p.id}',-1)" class="w-10 h-10 rounded-full border-2 border-slate-100 text-slate-400 font-black active:bg-slate-100 text-center text-center text-center">-</button><span class="font-black text-xl w-6 text-center text-slate-900 text-center text-center text-center text-center text-center">${state.matchScores[currentMatchIdx][p.id]||0}</span><button onclick="window.goal('${p.id}',1)" class="w-10 h-10 rounded-full bg-slate-900 text-white font-black active:scale-125 transition-transform shadow-md text-center text-center text-center text-center text-center">+</button></div></div>`).join(''):`<p class="text-[10px] text-slate-300 text-center py-10 italic font-bold uppercase text-center text-center text-center text-center text-center text-center text-center">No Players</p>`;
-            document.getElementById('modal-left-players').innerHTML = rl(m.teams[0]); document.getElementById('modal-right-players').innerHTML = rl(m.teams[1]);
-        }
-
-        function initSortable() {
-            const containers = document.querySelectorAll('.team-list-area');
-            containers.forEach(el => {
-                new Sortable(el, { group: 'all-teams', animation: 180, ghostClass: 'sortable-ghost',
-                    onEnd: function (evt) {
-                        const from = evt.from.dataset.team, to = evt.to.dataset.team, pid = evt.item.dataset.id;
-                        if (from === to && evt.oldIndex === evt.newIndex) return;
-                        const pObj = state.teams[from].find(p => p.id === pid); if (!pObj) return;
-                        state.teams[from] = state.teams[from].filter(p => p.id !== pid);
-                        state.teams[to].splice(evt.newIndex, 0, pObj); pushState();
-                    }
-                });
-            });
-        }
-
-        window.switchTab = (tab) => {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('bg-slate-800','text-white','shadow-md'); b.classList.add('bg-white','text-slate-600'); });
-            document.getElementById(`tab-${tab}`).classList.add('active');
-            const targetBtn = document.getElementById(`btn-${tab}`);
-            targetBtn.classList.replace('bg-white','bg-slate-800'); targetBtn.classList.replace('text-slate-600','text-white');
-            renderAll();
-        };
-
-        window.addPlayer = (teamName) => {
-            const name = document.getElementById(`input-name-${teamName}`).value.trim(); if(!name) return;
-            const gender = document.getElementById(`input-gender-${teamName}`).value;
-            state.teams[teamName].push({ id: 'p_'+Date.now(), name, gender, skill: (gender === '여' ? 10 : 4) });
-            pushState(); document.getElementById(`input-name-${teamName}`).value = ''; 
-        };
-
-        window.removePlayer = (teamName, pid) => { state.teams[teamName] = state.teams[teamName].filter(p => p.id !== pid); pushState(); };
-        window.clearTeam = (teamName) => { state.teams[teamName] = []; pushState(); };
-        
-        window.openEditModal = (teamName, pid) => {
-            const p = state.teams[teamName].find(p => p.id === pid); if (!p) return;
-            document.getElementById('edit-player-name').value = p.name; document.getElementById('edit-player-gender').value = p.gender; document.getElementById('edit-player-skill').value = p.skill;
-            const select = document.getElementById('edit-player-team');
-            select.innerHTML = `<option value="OB 진영">OB 진영</option><option value="OB-1">OB-1</option><option value="OB-2">OB-2</option><option value="YB 진영">YB 진영</option><option value="YB-1">YB-1</option><option value="YB-2">YB-2</option>`;
-            select.value = teamName;
-            document.getElementById('edit-save-btn').onclick = () => {
-                const nt = select.value; p.name = document.getElementById('edit-player-name').value; p.gender = document.getElementById('edit-player-gender').value; p.skill = parseInt(document.getElementById('edit-player-skill').value);
-                if (nt !== teamName) { state.teams[teamName] = state.teams[teamName].filter(x => x.id !== pid); state.teams[nt].push(p); }
-                pushState(); window.closeModal('edit-modal');
-            };
-            document.getElementById('edit-modal').classList.add('active');
-        };
-
-        window.openMatchModal = (idx) => {
-            currentMatchIdx = idx; const m = flatMatches.find(f => f.idx === idx);
-            document.getElementById('modal-match-info').innerText = `${m.q} - Court ${m.court}`;
-            document.getElementById('modal-left-team-container').innerHTML = `<span class="team-tag ${getTeamTagClass(m.teams[0])}">${m.teams[0]}</span>`;
-            document.getElementById('modal-right-team-container').innerHTML = `<span class="team-tag ${getTeamTagClass(m.teams[1])}">${m.teams[1]}</span>`;
-            renderModalPlayers(); document.getElementById('scoring-modal').classList.add('active');
-        };
-        window.goal = (pid, d) => { if (currentMatchIdx === null) return; state.matchScores[currentMatchIdx][pid] = Math.max(0, (state.matchScores[currentMatchIdx][pid] || 0) + d); pushState(); };
-        window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); if (id === 'scoring-modal') currentMatchIdx = null; };
-        window.showConfirm = (title, msg, fn) => { document.getElementById('confirm-title').innerText = title; document.getElementById('confirm-msg').innerText = msg; document.getElementById('confirm-action-btn').onclick = () => { fn(); window.closeModal('confirm-modal'); }; document.getElementById('confirm-modal').classList.add('active'); };
-        window.showToast = (msg) => { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('opacity-100'); setTimeout(() => t.classList.remove('opacity-100'), 2000); };
-        window.copyStatus = () => { const text = `[OTP FC LIVE]\nOB ${document.getElementById('total-ob').innerText} : ${document.getElementById('total-yb').innerText} YB\n실시간: ${window.location.href}`; const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); window.showToast("복사되었습니다."); };
-        window.resetScoresOnly = () => { state.matchScores = Array(12).fill(null).map(() => ({})); pushState(); };
 
         function renderMemberPool() {
             const list = document.getElementById('member-pool-list');
@@ -474,19 +447,21 @@
         async function pushState() { if (!user || !stateDocRef) return; try { await setDoc(stateDocRef, state); } catch(e) { console.error("Push Error", e); } }
         function startSync() {
             onSnapshot(stateDocRef, (ds) => { 
-                if (ds.exists()) { const d = ds.data(); state = { ...d, selectionMap: d.selectionMap || {}, teams: { ...JSON.parse(JSON.stringify(DEFAULT_TEAMS)), ...d.teams } }; renderAll(); } 
-                else { setDoc(stateDocRef, state); } 
+                if (ds.exists()) { 
+                    const d = ds.data();
+                    state = { 
+                        ...d, 
+                        selectionMap: d.selectionMap || {}, 
+                        labels: { ...JSON.parse(JSON.stringify(DEFAULT_LABELS)), ...d.labels },
+                        teams: { ...JSON.parse(JSON.stringify(DEFAULT_TEAMS)), ...d.teams } 
+                    };
+                    renderAll(); 
+                } else { setDoc(stateDocRef, state); } 
                 document.getElementById('sync-status').className = 'sync-indicator sync-online'; document.getElementById('sync-text').innerText = 'Connected Live'; 
             }, (er) => { document.getElementById('sync-status').className = 'sync-indicator sync-offline'; document.getElementById('sync-text').innerText = 'Offline'; });
         }
 
-        function renderAll() {
-            renderMatchList();
-            renderTeamManagement();
-            renderRecords();
-            if (currentMatchIdx !== null) renderModalPlayers();
-            renderMemberPool();
-        }
+        function renderAll() { renderMatchList(); renderTeamManagement(); renderRecords(); if (currentMatchIdx !== null) renderModalPlayers(); renderMemberPool(); }
 
         async function run() {
             renderAll();
